@@ -1,0 +1,11 @@
+/* src/components/NavButtonText.css */
+.nav-button-text {
+    text-decoration: none;
+    color: #0f172a;
+    font-size: 16px;
+    transition: color 0.2s;
+}
+
+.nav-button-text:hover {
+    color: #3b82f6;
+}

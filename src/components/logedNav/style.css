@@ -1,0 +1,46 @@
+/* src/components/LogedNav.css */
+.nav-container {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.nav-left,
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.logo {
+    font-size: 44px;
+    font-weight: bold;
+    color: #1756a9;
+}
+
+.dot {
+    color: #1756a9;
+}
+
+.create-account-button {
+    background: linear-gradient(to right, #6366f1, #3b82f6);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 9999px;
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.create-account-button:hover {
+    background: linear-gradient(to right, #4f46e5, #2563eb);
+}
+
+.arrow {
+    font-size: 18px;
+}
