@@ -1,21 +1,33 @@
 // src/navigation/AppRouter.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LogedNav from '../components/logedNav';
 import Home from '../pages/home/home';
 import Universities from '../pages/universities/universities';
 import Careers from '../pages/careers/careers';
+import MainLayout from '../layouts/mainLayout';
+import AboutUs from '../pages/aboutUs/aboutUs';
+import Test from '../pages/test/Test';
 
 
 const AppRouter = () => {
   return (
-    <Router>
-      <LogedNav />
+  <Router>
         <Routes>
+          {/* Rutas que usan NAV */}
+          <Route element={<MainLayout/>}>
             <Route path="/" element={<Home />} />
             <Route path="/universities" element={<Universities />} />
             <Route path="/careers" element={<Careers />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/uni-ai" element={<h1>falta la page</h1>} />
+
+          </Route>
+
+          {/* Rutas sin NAV */}
+
+          
         </Routes>
-    </Router>
+      </Router>
   );
 };
 

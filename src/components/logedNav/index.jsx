@@ -12,7 +12,7 @@ const LogedNav = () => {
                 <NavButtonText name="/careers" texto="Careers" />
                 <NavButtonText name="/about" texto="About Us" />
                 <NavButtonText name="/test" texto="Test" />
-                <NavButtonText name="/uni-ai" texto="Uni🧠" />
+                <NavButtonText name="/uni-ai" texto="Uni🧠" style={{color: "blue"}}/>
             </div>
             <div className="nav-right">
 
