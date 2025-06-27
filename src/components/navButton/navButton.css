@@ -1,0 +1,33 @@
+.nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #4F63E6;
+    color: white;
+    padding: 4px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    width: fit-content;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .button-text {
+    z-index: 1;
+  }
+  
+  .button-icon {
+    background-color: #5D80D7;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  

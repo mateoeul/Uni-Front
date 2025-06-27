@@ -1,19 +1,44 @@
-/* src/components/LogedNav.css */
-.nav-container {
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
+body {
+    overflow-x: hidden;
 }
 
+.nav-container {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    padding: 0 16px;
+    box-sizing: border-box;
+}
+
+/* Contenedor del contenido centrado */
+.nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70vw;  /* Ajustalo si querés más o menos espacio */
+    max-width: 1200px;
+    min-width: 300px;
+}
+
+/* Nav izquierdo y derecho */
 .nav-left,
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 40px; /* MÁS espacio entre elementos */
 }
 
+.nav-left {
+    flex-grow: 1;
+    justify-content: flex-start;
+}
+
+.nav-right {
+    justify-content: flex-end;
+}
+
+/* Logo */
 .logo {
     font-size: 44px;
     font-weight: bold;
@@ -24,6 +49,7 @@
     color: #1756a9;
 }
 
+/* Botón */
 .create-account-button {
     background: linear-gradient(to right, #6366f1, #3b82f6);
     color: white;
@@ -43,4 +69,57 @@
 
 .arrow {
     font-size: 18px;
+}
+
+/* --- 🔍 Search --- */
+.search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 60px; /* aseguramos espacio mínimo para la lupa */
+    transition: width 0.3s ease;
+    overflow: visible; /* CAMBIO CLAVE */
+}
+
+.search-container.expanded {
+    width: 250px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 6px 12px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background-color: #ffffff;
+    font-size: 14px;
+    margin-right: 8px;
+    width: 100%;
+    border: 1px solid rgb(122, 122, 122);
+    color: black;
+}
+
+.search-container.expanded .search-input {
+    opacity: 1;
+}
+
+.search-icon {
+    cursor: pointer;
+    font-size: 20px;
+    color: #555;
+    z-index: 2;
+    position: relative;
+}
+.profile-icon {
+    font-size: 28px;
+    color: #333;
+    margin-left: 24px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.profile-icon:hover {
+    color: #1756a9;
 }
