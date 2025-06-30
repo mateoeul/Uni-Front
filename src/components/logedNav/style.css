@@ -36,6 +36,7 @@ body {
 
 .nav-right {
     justify-content: flex-end;
+
 }
 
 /* Logo */
@@ -45,9 +46,6 @@ body {
     color: #1756a9;
 }
 
-.dot {
-    color: #1756a9;
-}
 
 /* Botón */
 .create-account-button {
@@ -103,6 +101,7 @@ body {
 
 .search-container.expanded .search-input {
     opacity: 1;
+    border-color: #3b82f6;
 }
 
 .search-icon {
@@ -112,6 +111,11 @@ body {
     z-index: 2;
     position: relative;
 }
+
+.search-icon:hover {
+    color: #3b82f6;
+}
+
 .profile-icon {
     font-size: 28px;
     color: #333;
