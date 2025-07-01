@@ -22,13 +22,15 @@ const Landing = () => {
         <>
             <UnlogedNav navClass={navClass} />
             <div className="imagenFondo">  
-                <h1>Uni.</h1>
-                <h4>Tu futuro en un click</h4>
-
+                <div className="textoLanding">
+                    <h1>Uni.</h1>
+                    <h4>Tu futuro en un click</h4>
+                    <button className="landing-button"> Empezá ahora </button>
+                </div>
             </div>
             
             <div style={{ height: "200vh", background: "#f0f0f0" }}>
-                {/* Contenido extra para scrollear */}
+                
             </div>
         </>
     );

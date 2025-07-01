@@ -9,19 +9,16 @@
   }
   
   .nav-transparent {
-    background-color: rgba(0, 0, 0, 0.6); /* Negro con transparencia */
+    background-color: rgba(0, 0, 0, 0.3); /* Negro con transparencia */
     color: white;
   }
   .nav-transparent .dot {
     color: white !important;
   }
-  .nav-transparent span:hover {
-    color: white !important;
+  .nav-transparent span:hover { 
+    text-decoration: none !important;
   }
 
-  .nav-transparent:hover {
-    color: #8bb7ff;
-  }
 
   .nav-white {
     background-color: white;

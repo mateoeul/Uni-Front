@@ -10,8 +10,22 @@
 }
 
 .text-white {
+    position: relative;
     color: white !important;
+    text-decoration: none;
 }
-.text-white:hover {
-    color: #65a0ff !important;
+
+.text-white::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0%;
+    height: 2px;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+.text-white:hover::after {
+    width: 100%;
 }
