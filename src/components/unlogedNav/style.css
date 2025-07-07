@@ -19,6 +19,9 @@
     text-decoration: none !important;
   }
 
+  .logo.text-white::after {
+    content: none !important;
+}
 
   .nav-white {
     background-color: white;
