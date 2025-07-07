@@ -2,8 +2,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./login.css"
-import Logo from "../../assets/images/uni.jpg";
+import Logo from "../../assets/images/LogoUni.png";
 import Img from "../../assets/images/google.png"
+import Ilu from "../../assets/images/ilustracion.png"
 const Login = () => {
   const [form, setForm] = useState({
     email: "",
@@ -24,13 +25,13 @@ const Login = () => {
       <div className="login-wrapper">
         {/* Columna izquierda */}
         <div className="login-left">
-          <img src="src/assets/images/uni.jpg" alt="Logo Uni" className="logo-img" />
+          <img src="src/assets/images/LogoUni.png" alt="Logo Uni" className="logo-img" />
           <h1 className="login-title-left">
             El comienzo de tu <br />
             <span>futuro académico</span>
           </h1>
           <img
-            src="/illustration.png"
+            src="src/assets/images/Ilustracion.png"
             alt="Ilustración"
             className="login-illustration"
           />
