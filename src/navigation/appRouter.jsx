@@ -6,7 +6,7 @@ import Careers from '../pages/careers/careers';
 import MainLayout from '../layouts/mainLayout';
 import AboutUs from '../pages/aboutUs/aboutUs';
 import Test from '../pages/test/Test';
-import Login from '../pages/login/login';
+import Login from '../pages/login/Login.jsx';
 import Landing from '../pages/landing/Landing';
 
 const AppRouter = () => {
