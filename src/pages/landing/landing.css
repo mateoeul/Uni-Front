@@ -51,6 +51,7 @@
 }
 
 .info-section {
+    margin-top: 3%;
     display: flex;
     flex-wrap: wrap;
     padding: 60px 5%;
@@ -123,4 +124,9 @@ p, h2, h4{
 .info-block h4 {
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+
+.features{
+    margin-top: 3%;
 }
