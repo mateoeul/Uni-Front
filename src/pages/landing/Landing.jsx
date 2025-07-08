@@ -6,6 +6,8 @@ import Universitarios1 from '../../assets/images/universitarios1.jpg'
 import Universitarios2 from '../../assets/images/universitarios2.jpg'
 import Universitarios3 from '../../assets/images/universitarios3.jpg'
 
+import LandingFeatures from '../../components/landingFeatures/LandingFeatures';
+
 const Landing = () => {
     const [navClass, setNavClass] = useState("nav-transparent");
 
@@ -64,6 +66,12 @@ const Landing = () => {
                     </div>
                 </div>
             </div>
+
+            <div>
+                <LandingFeatures/>
+            </div>
+
+
         </div>
                 </>
     );

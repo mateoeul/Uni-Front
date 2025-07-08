@@ -27,8 +27,7 @@ const Login = () => {
         <div className="login-left">
           <img src="src/assets/images/LogoUni.png" alt="Logo Uni" className="logo-img" />
           <h1 className="login-title-left">
-            El comienzo de tu <br />
-            <span>futuro académico</span>
+            El comienzo de tu <br /> <span>futuro académico</span>  
           </h1>
           <img
             src="src/assets/images/Ilustracion.png"
