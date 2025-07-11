@@ -8,6 +8,7 @@ import AboutUs from '../pages/aboutUs/aboutUs';
 import Test from '../pages/test/Test';
 import Login from '../pages/login/Login.jsx';
 import Landing from '../pages/landing/Landing';
+import Register from '../pages/register/Register.jsx';
 
 const AppRouter = () => {
   return (
@@ -26,6 +27,7 @@ const AppRouter = () => {
 
           <Route path="/" element={<Landing />} />          
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           {/* Rutas sin NAV */}
 
           

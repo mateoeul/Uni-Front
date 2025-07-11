@@ -9,6 +9,10 @@
     padding: 0 2rem;
   }
 
+  h2{
+    color: black;
+  }
+
   /* Wrapper centrado con ancho limitado */
   .login-wrapper {
     display: flex;

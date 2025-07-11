@@ -1,0 +1,42 @@
+/* Hereda la mayoría de estilos de login.css */
+
+/* Select y date con mismo estilo que los inputs */
+.login-input-final select,
+.login-input-final[type="date"],
+select.login-input-final,
+input[type="date"].login-input-final {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-sizing: border-box;
+  background: white;
+  color: #333;
+}
+
+.login-input-final:focus,
+select.login-input-final:focus,
+input[type="date"].login-input-final:focus {
+  border: 1px solid #1a73e8;
+  outline: none;
+}
+
+/* Mensajes de error */
+.error {
+  color: #e53935;
+  font-size: 0.9rem;
+  margin-top: -0.7rem;
+  margin-bottom: 0.5rem;
+  display: block;
+  text-align: left;
+  padding-left: 2px;
+}
+
+.register-main-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #1e3a8a;
+  letter-spacing: 1px;
+}
