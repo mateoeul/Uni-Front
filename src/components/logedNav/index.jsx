@@ -15,7 +15,7 @@ const LogedNav = () => {
     <nav className="nav-container">
       <div className="nav-content">
         <div className="nav-left">
-          <span name="/" className="logo">Uni<span className="dot">.</span></span>    
+          <span name="/" className="logo">Uni</span>    
           <NavButtonText name="/home" texto="Home" />
           <NavButtonText name="/universities" texto="Universities" />
           <NavButtonText name="/careers" texto="Careers" />

@@ -1,0 +1,64 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.custom-input:focus {
+  border: 1px solid #1a73e8;
+  outline: none;
+}
+
+.custom-input.input-error {
+  border-color: #dc3545;
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.input-error-message {
+  color: #dc3545;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  margin-left: 0.5rem;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: rgba(220, 53, 69, 0.1);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  max-width: 100%;
+  word-wrap: break-word;
+  z-index: 10;
+}
+
+/* Estilos para select */
+.custom-input[type="select"] {
+  background-color: white;
+  cursor: pointer;
+}
+
+/* Estilos para date */
+.custom-input[type="date"] {
+  color: #333;
+}
+
+.custom-input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+} 

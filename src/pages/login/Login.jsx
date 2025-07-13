@@ -1,23 +1,50 @@
-// src/pages/Home.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./login.css"
 import Logo from "../../assets/images/LogoUni.png";
 import Img from "../../assets/images/google.png"
 import Ilu from "../../assets/images/ilustracion.png"
+import Input from "../../components/input/Input";
+
 const Login = () => {
   const [form, setForm] = useState({
     email: "",
-    password: "",
+    password: ""
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!form.email.trim()) newErrors.email = "El email es requerido";
+    if (!form.password.trim()) newErrors.password = "La contraseña es requerida";
+    
+    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = "Email inválido";
+    }
+    
+    if (form.password && form.password.length < 6) {
+      newErrors.password = "Mínimo 6 caracteres";
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Iniciando sesión con:", form);
+    if (validateForm()) {
+      console.log("Iniciando sesión con:", form);
+      // Aquí iría la lógica de login
+    }
   };
 
   return (
@@ -40,7 +67,6 @@ const Login = () => {
         <div className="login-right">
           <div className="login-box-final">
             <h2 className="login-title">Iniciar sesión en Uni</h2>
-
             <form onSubmit={handleSubmit} className="login-form">
               <input
                 type="email"
@@ -51,6 +77,7 @@ const Login = () => {
                 className="login-input-final"
                 required
               />
+              {errors.email && <span style={{color: 'red', fontSize: '0.8rem'}}>{errors.email}</span>}
               <input
                 type="password"
                 name="password"
@@ -60,6 +87,7 @@ const Login = () => {
                 className="login-input-final"
                 required
               />
+              {errors.password && <span style={{color: 'red', fontSize: '0.8rem'}}>{errors.password}</span>}
               <button type="submit" className="login-button-final">
                 Iniciar sesión
               </button>

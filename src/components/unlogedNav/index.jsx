@@ -11,7 +11,7 @@ const UnlogedNav = ({ navClass }) => {
       <div className="nav-content">
         <div className="nav-left">
           <span className={`logo ${textClass}`}>
-            Uni<span className="dot">.</span>
+            Uni
           </span>
           <NavButtonText name="/" texto="Home" className={textClass} />
           <NavButtonText name="/" texto="Universities" className={textClass} />
