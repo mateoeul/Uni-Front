@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const carreras = [
   "Ingeniería", "Medicina", "Derecho", "Arquitectura", "Psicología"
@@ -20,6 +22,8 @@ const FormRegister = () => {
   });
   const [errors1, setErrors1] = useState({});
   const [errors2, setErrors2] = useState({});
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange1 = (e) => {
     const { name, value } = e.target;
@@ -80,10 +84,47 @@ const FormRegister = () => {
     }
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+    setError("");
     if (validateStep2()) {
-      alert("¡Registro exitoso!");
+      // 1. Registrar usuario
+      const registroData = {
+        mail: form1.email,
+        contraseña: form1.password,
+        username: form1.username,
+      };
+      try {
+        const usuarioRes = await axios.post("http://localhost:3000/registro", registroData);
+        const usuario = usuarioRes.data; // debe incluir usuario.id
+        console.log('Usuario registrado:', usuario);
+
+        // 2. Registrar estudiante
+        const estudianteData = {
+          nombre: form2.nombre,
+          apellido: form2.apellido,
+          fechaNacimiento: form2.fechaNacimiento,
+          mail: form1.email,
+          idusuario: usuario.id || usuario.idusuario,
+          carrera: form2.carrera
+        };
+        console.log('Datos a enviar a /estudiantes:', estudianteData);
+        const estudianteRes = await axios.post("http://localhost:3000/estudiantes", estudianteData);
+        console.log('Respuesta de /estudiantes:', estudianteRes.data);
+
+        // 3. Login automático
+        const loginRes = await axios.post("http://localhost:3000/login", {
+          mail: form1.email,
+          contraseña: form1.password
+        });
+        console.log('Respuesta de login:', loginRes.data);
+        localStorage.setItem("token", loginRes.data.token);
+        localStorage.setItem("usuario", JSON.stringify(loginRes.data.usuario));
+        navigate("/home");
+      } catch (err) {
+        console.log('Error en el registro:', err);
+        setError("Error al registrar usuario o estudiante");
+      }
     }
   };
 
@@ -204,6 +245,7 @@ const FormRegister = () => {
               />
               {errors2.fechaNacimiento && <span className="error">{errors2.fechaNacimiento}</span>}
             </div>
+            {error && <div className="error">{error}</div>}
             <button type="submit" className="login-button-final">
               Registrarse
             </button>
