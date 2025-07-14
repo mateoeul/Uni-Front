@@ -92,7 +92,9 @@ const FormRegister = () => {
       const registroData = {
         mail: form1.email,
         contraseña: form1.password,
-        username: form1.username,
+        nombreusuario: form1.username,
+        tipo: "estudiante",
+        fecharegistro: new Date().toISOString()
       };
       try {
         const usuarioRes = await axios.post("http://localhost:3000/registro", registroData);

@@ -36,4 +36,21 @@ const AppRouter = () => {
   );
 };
 
+
+/*
+
+{
+    "tipo": "estudiante",
+    "nombreusuario": "cirobendov",
+    "mail": "cirobd@gmail.com",
+    "contraseña": "ciro23",
+    "fecharegistro": "2024-05-20T12:00:00Z",
+    "activo": true,
+    "emailverificado": false
+}
+
+
+*/
+
+
 export default AppRouter;
