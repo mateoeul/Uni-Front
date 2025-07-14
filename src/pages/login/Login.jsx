@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./login.css"
 import Logo from "../../assets/images/LogoUni.png";
 import Img from "../../assets/images/google.png"
 import Ilu from "../../assets/images/ilustracion.png"
 import Input from "../../components/input/Input";
+import axios from "axios";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -12,6 +13,8 @@ const Login = () => {
     password: ""
   });
   const [errors, setErrors] = useState({});
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,11 +42,21 @@ const Login = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");
     if (validateForm()) {
-      console.log("Iniciando sesión con:", form);
-      // Aquí iría la lógica de login
+      try {
+        const res = await axios.post("http://localhost:3000/api/user/login", {
+          mail: form.email,
+          contraseña: form.password
+        });
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("usuario", JSON.stringify(res.data.usuario));
+        navigate("/home");
+      } catch (err) {
+        setError("Email o contraseña incorrectos");
+      }
     }
   };
 
@@ -88,6 +101,7 @@ const Login = () => {
                 required
               />
               {errors.password && <span style={{color: 'red', fontSize: '0.8rem'}}>{errors.password}</span>}
+              {error && <span style={{color: 'red', fontSize: '0.9rem', display: 'block', marginTop: '8px'}}>{error}</span>}
               <button type="submit" className="login-button-final">
                 Iniciar sesión
               </button>

@@ -70,7 +70,7 @@ const FormRegister = () => {
     
     if (!form2.nombre.trim()) newErrors.nombre = "El nombre es requerido";
     if (!form2.apellido.trim()) newErrors.apellido = "El apellido es requerido";
-    if (!form2.carrera.trim()) newErrors.carrera = "Selecciona una carrera";
+    // Eliminada la validación de carrera
     if (!form2.fechaNacimiento.trim()) newErrors.fechaNacimiento = "La fecha de nacimiento es requerida";
     
     setErrors2(newErrors);
@@ -97,7 +97,7 @@ const FormRegister = () => {
         fecharegistro: new Date().toISOString()
       };
       try {
-        const usuarioRes = await axios.post("http://localhost:3000/registro", registroData);
+        const usuarioRes = await axios.post("http://localhost:3000/api/user/registro", registroData);
         const usuario = usuarioRes.data; // debe incluir usuario.id
         console.log('Usuario registrado:', usuario);
 
@@ -105,17 +105,16 @@ const FormRegister = () => {
         const estudianteData = {
           nombre: form2.nombre,
           apellido: form2.apellido,
-          fechaNacimiento: form2.fechaNacimiento,
+          fechanac: form2.fechaNacimiento,
           mail: form1.email,
-          idusuario: usuario.id || usuario.idusuario,
-          carrera: form2.carrera
+          idusuario: usuario.id // importante: id del usuario recién creado
         };
         console.log('Datos a enviar a /estudiantes:', estudianteData);
-        const estudianteRes = await axios.post("http://localhost:3000/estudiantes", estudianteData);
+        const estudianteRes = await axios.post("http://localhost:3000/api/user/estudiantes", estudianteData);
         console.log('Respuesta de /estudiantes:', estudianteRes.data);
 
         // 3. Login automático
-        const loginRes = await axios.post("http://localhost:3000/login", {
+        const loginRes = await axios.post("http://localhost:3000/api/user/login", {
           mail: form1.email,
           contraseña: form1.password
         });
@@ -219,23 +218,7 @@ const FormRegister = () => {
               />
               {errors2.apellido && <span className="error">{errors2.apellido}</span>}
             </div>
-            <div className="input-wrapper">
-              <select
-                name="carrera"
-                value={form2.carrera}
-                onChange={handleChange2}
-                className={`login-input-final ${errors2.carrera ? 'input-error' : ''}`}
-                required
-              >
-                <option value="">Carrera</option>
-                {carreras.map((carrera, index) => (
-                  <option key={index} value={carrera}>
-                    {carrera}
-                  </option>
-                ))}
-              </select>
-              {errors2.carrera && <span className="error">{errors2.carrera}</span>}
-            </div>
+            {/* Eliminado el select de carrera */}
             <div className="input-wrapper">
               <input
                 type="date"
