@@ -1,11 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css"
-import Logo from "../../assets/images/LogoUni.png";
-import Img from "../../assets/images/google.png"
-import Ilu from "../../assets/images/ilustracion.png"
-import Input from "../../components/input/Input";
-import axios from "axios";
+import authService from "../../services/auth-service";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -19,6 +15,7 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: "" }));
     }
@@ -27,14 +24,15 @@ const Login = () => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!form.email.trim()) newErrors.email = "El email es requerido";
-    if (!form.password.trim()) newErrors.password = "La contraseña es requerida";
-    
-    if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+    if (!form.email.trim()) {
+      newErrors.email = "El email es requerido";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       newErrors.email = "Email inválido";
     }
     
-    if (form.password && form.password.length < 6) {
+    if (!form.password.trim()) {
+      newErrors.password = "La contraseña es requerida";
+    } else if (form.password.length < 6) {
       newErrors.password = "Mínimo 6 caracteres";
     }
     
@@ -45,18 +43,23 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    
     if (validateForm()) {
       try {
-        const res = await axios.post("http://localhost:3000/api/user/login", {
-          mail: form.email,
-          contraseña: form.password
-        });
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("usuario", JSON.stringify(res.data.usuario));
+        // Use auth service for login
+        const response = await authService.login(form.email, form.password);
+        console.log('Login successful:', response);
         navigate("/home");
       } catch (err) {
-        setError("Email o contraseña incorrectos");
+        console.error('Login error:', err);
+        // Show the actual backend error message
+        setError(err.message);
       }
+    } else {
+      // Add a brief visual feedback for empty fields
+      setTimeout(() => {
+        setErrors(prev => ({ ...prev }));
+      }, 100);
     }
   };
 
@@ -81,27 +84,29 @@ const Login = () => {
           <div className="login-box-final">
             <h2 className="login-title">Iniciar sesión en Uni</h2>
             <form onSubmit={handleSubmit} className="login-form">
-              <input
-                type="email"
-                name="email"
-                placeholder="Correo electrónico"
-                value={form.email}
-                onChange={handleChange}
-                className="login-input-final"
-                required
-              />
-              {errors.email && <span style={{color: 'red', fontSize: '0.8rem'}}>{errors.email}</span>}
-              <input
-                type="password"
-                name="password"
-                placeholder="Contraseña"
-                value={form.password}
-                onChange={handleChange}
-                className="login-input-final"
-                required
-              />
-              {errors.password && <span style={{color: 'red', fontSize: '0.8rem'}}>{errors.password}</span>}
-              {error && <span style={{color: 'red', fontSize: '0.9rem', display: 'block', marginTop: '8px'}}>{error}</span>}
+              <div className="input-wrapper">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Correo electrónico"
+                  value={form.email}
+                  onChange={handleChange}
+                  className={`login-input-final ${errors.email ? 'input-error' : ''}`}
+                />
+                {errors.email && <span className="error">{errors.email}</span>}
+              </div>
+              <div className="input-wrapper">
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Contraseña"
+                  value={form.password}
+                  onChange={handleChange}
+                  className={`login-input-final ${errors.password ? 'input-error' : ''}`}
+                />
+                {errors.password && <span className="error">{errors.password}</span>}
+              </div>
+              {error && <div className="error">{error}</div>}
               <button type="submit" className="login-button-final">
                 Iniciar sesión
               </button>

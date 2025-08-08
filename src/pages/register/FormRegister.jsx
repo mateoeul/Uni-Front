@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
 
 const carreras = [
@@ -70,7 +70,6 @@ const FormRegister = () => {
     
     if (!form2.nombre.trim()) newErrors.nombre = "El nombre es requerido";
     if (!form2.apellido.trim()) newErrors.apellido = "El apellido es requerido";
-    // Eliminada la validación de carrera
     if (!form2.fechaNacimiento.trim()) newErrors.fechaNacimiento = "La fecha de nacimiento es requerida";
     
     setErrors2(newErrors);
@@ -87,44 +86,41 @@ const FormRegister = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     setError("");
+    
     if (validateStep2()) {
-      // 1. Registrar usuario
-      const registroData = {
-        mail: form1.email,
-        contraseña: form1.password,
-        nombreusuario: form1.username,
-        tipo: "estudiante",
-        fecharegistro: new Date().toISOString()
-      };
       try {
-        const usuarioRes = await axios.post("http://localhost:3000/api/user/registro", registroData);
-        const usuario = usuarioRes.data; // debe incluir usuario.id
-        console.log('Usuario registrado:', usuario);
+        // Create user data for registration
+        const userData = {
+          nombreusuario: form1.username,
+          mail: form1.email,
+          contraseña: form1.password
+        };
 
-        // 2. Registrar estudiante
-        const estudianteData = {
+        // Create student data
+        const studentData = {
           nombre: form2.nombre,
           apellido: form2.apellido,
           fechanac: form2.fechaNacimiento,
-          mail: form1.email,
-          idusuario: usuario.id // importante: id del usuario recién creado
+          foto: null
         };
-        console.log('Datos a enviar a /estudiantes:', estudianteData);
-        const estudianteRes = await axios.post("http://localhost:3000/api/user/estudiantes", estudianteData);
-        console.log('Respuesta de /estudiantes:', estudianteRes.data);
 
-        // 3. Login automático
-        const loginRes = await axios.post("http://localhost:3000/api/user/login", {
-          mail: form1.email,
-          contraseña: form1.password
-        });
-        console.log('Respuesta de login:', loginRes.data);
-        localStorage.setItem("token", loginRes.data.token);
-        localStorage.setItem("usuario", JSON.stringify(loginRes.data.usuario));
+        // Create complete registration data using auth service helper
+        const registrationData = authService.createStudentRegistration(userData, studentData);
+        
+        // Register using auth service
+        const response = await authService.register(registrationData);
+        console.log('Registration successful:', response);
+
+        // Auto login after successful registration
+        const loginResponse = await authService.login(form1.email, form1.password);
+        console.log('Auto login successful:', loginResponse);
+
+        // Navigate to home page
         navigate("/home");
+        
       } catch (err) {
-        console.log('Error en el registro:', err);
-        setError("Error al registrar usuario o estudiante");
+        console.error('Registration error:', err);
+        setError(err.message || "Error al registrar usuario");
       }
     }
   };
@@ -218,7 +214,6 @@ const FormRegister = () => {
               />
               {errors2.apellido && <span className="error">{errors2.apellido}</span>}
             </div>
-            {/* Eliminado el select de carrera */}
             <div className="input-wrapper">
               <input
                 type="date"
