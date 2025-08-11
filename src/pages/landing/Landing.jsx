@@ -4,7 +4,7 @@ import './Landing.css';
 
 import LandingFeatures from '../../components/landingFeatures/LandingFeatures';
 import Testimonios from '../../components/testimonios/Testimonios';
-import PaperPlaneAnimation from './PaperPlaneAnimation';
+
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import phoneMockup from '../../assets/images/uni.png'; // Usa tu mockup real si lo tienes
 import { FaUniversity, FaComments, FaSearch, FaBalanceScale } from 'react-icons/fa';
