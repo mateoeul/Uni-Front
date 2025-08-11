@@ -43,9 +43,9 @@
 
 /* debug border eliminado */
 
-.search-container {
+.home-search {
   display: flex;
-  width: 100%;
+  width: 40%;
   max-width: 900px;
   margin: 0;
   background: white;
@@ -54,7 +54,7 @@
   overflow: hidden;
 }
 
-.search-input {
+.home-search__input {
   flex: 1;
   padding: 15px 25px;
   border: none;
@@ -63,7 +63,7 @@
   background: transparent;
 }
 
-.search-button {
+.home-search__button {
   background: #1976D2;
   color: white;
   border: none;
@@ -72,7 +72,7 @@
   transition: background-color 0.3s;
 }
 
-.search-button:hover {
+.home-search__button:hover {
   background: #0D47A1;
 }
 
@@ -250,16 +250,16 @@
     grid-template-columns: 1fr;
   }
   
-  .search-container {
+  .home-search {
     flex-direction: column;
     border-radius: 15px;
   }
   
-  .search-input {
+  .home-search__input {
     border-radius: 15px 15px 0 0;
   }
   
-  .search-button {
+  .home-search__button {
     border-radius: 0 0 15px 15px;
   }
 }

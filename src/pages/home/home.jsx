@@ -27,13 +27,13 @@ const Home = () => {
           <p className="hero-subtitle">
             Encontrá toda la información de las carreras y universidades de tu interés
           </p>
-            <div className="search-container">
+          <div className="home-search">
               <input 
                 type="text" 
                 placeholder="Buscar..." 
-                className="search-input"
+              className="home-search__input"
               />
-              <button className="search-button">
+            <button className="home-search__button">
                 <FaSearch />
               </button>
             </div>
