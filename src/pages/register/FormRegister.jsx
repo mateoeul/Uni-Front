@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
 
-const carreras = [
-  "Ingeniería", "Medicina", "Derecho", "Arquitectura", "Psicología"
-];
 
 const FormRegister = () => {
   const [step, setStep] = useState(1);
@@ -23,7 +20,9 @@ const FormRegister = () => {
   const [errors1, setErrors1] = useState({});
   const [errors2, setErrors2] = useState({});
   const [error, setError] = useState("");
+  const [step1Error, setStep1Error] = useState("");
   const navigate = useNavigate();
+
 
   const handleChange1 = (e) => {
     const { name, value } = e.target;
@@ -31,6 +30,7 @@ const FormRegister = () => {
     if (errors1[name]) {
       setErrors1(prev => ({ ...prev, [name]: "" }));
     }
+    if (step1Error) setStep1Error("");
   };
 
   const handleChange2 = (e) => {
@@ -79,7 +79,26 @@ const FormRegister = () => {
   const handleNext = (e) => {
     e.preventDefault();
     if (validateStep1()) {
-      setStep(2);
+      // First check availability on server without creating user
+      (async () => {
+        try {
+          setStep1Error("");
+          await authService.validateExistence(form1.email, form1.username);
+          setStep(2);
+        } catch (err) {
+          // Server returns specific messages for duplicates
+          const msg = err.message || "Error de validación";
+          if (msg.toLowerCase().includes('mail')) {
+            setErrors1(prev => ({ ...prev, email: msg }));
+          } else if (msg.toLowerCase().includes('usuario')) {
+            setErrors1(prev => ({ ...prev, username: msg }));
+          } else {
+            setStep1Error(msg);
+          }
+        }
+      })();
+    } else {
+      setStep1Error("Completa los campos obligatorios");
     }
   };
 
@@ -139,7 +158,6 @@ const FormRegister = () => {
                 value={form1.username}
                 onChange={handleChange1}
                 className={`login-input-final ${errors1.username ? 'input-error' : ''}`}
-                required
               />
               {errors1.username && <span className="error">{errors1.username}</span>}
             </div>
@@ -151,7 +169,6 @@ const FormRegister = () => {
                 value={form1.email}
                 onChange={handleChange1}
                 className={`login-input-final ${errors1.email ? 'input-error' : ''}`}
-                required
               />
               {errors1.email && <span className="error">{errors1.email}</span>}
             </div>
@@ -163,7 +180,6 @@ const FormRegister = () => {
                 value={form1.password}
                 onChange={handleChange1}
                 className={`login-input-final ${errors1.password ? 'input-error' : ''}`}
-                required
               />
               {errors1.password && <span className="error">{errors1.password}</span>}
             </div>
@@ -175,10 +191,10 @@ const FormRegister = () => {
                 value={form1.confirmPassword}
                 onChange={handleChange1}
                 className={`login-input-final ${errors1.confirmPassword ? 'input-error' : ''}`}
-                required
               />
               {errors1.confirmPassword && <span className="error">{errors1.confirmPassword}</span>}
             </div>
+            {step1Error && <div className="error" style={{ marginBottom: 8 }}>{step1Error}</div>}
             <button type="submit" className="login-button-final">
               Siguiente
             </button>
@@ -198,7 +214,6 @@ const FormRegister = () => {
                 value={form2.nombre}
                 onChange={handleChange2}
                 className={`login-input-final ${errors2.nombre ? 'input-error' : ''}`}
-                required
               />
               {errors2.nombre && <span className="error">{errors2.nombre}</span>}
             </div>
@@ -210,7 +225,6 @@ const FormRegister = () => {
                 value={form2.apellido}
                 onChange={handleChange2}
                 className={`login-input-final ${errors2.apellido ? 'input-error' : ''}`}
-                required
               />
               {errors2.apellido && <span className="error">{errors2.apellido}</span>}
             </div>
@@ -221,7 +235,6 @@ const FormRegister = () => {
                 value={form2.fechaNacimiento}
                 onChange={handleChange2}
                 className={`login-input-final ${errors2.fechaNacimiento ? 'input-error' : ''}`}
-                required
               />
               {errors2.fechaNacimiento && <span className="error">{errors2.fechaNacimiento}</span>}
             </div>

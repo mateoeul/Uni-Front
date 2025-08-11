@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./register.css";
 import Logo from "../../assets/images/LogoUni.png";
 import Illustration from "../../assets/images/Ilustracion.png";
@@ -20,6 +21,10 @@ const Register = () => {
         <div className="login-right">
           <div className="login-box-final">
             <FormRegister />
+            <div className="login-links-final" style={{ marginTop: "12px", textAlign: "center" }}>
+              <span>¿Ya tienes cuenta de Uni? </span>
+              <Link to="/login">Inicia sesión</Link>
+            </div>
           </div>
         </div>
       </div>

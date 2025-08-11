@@ -30,6 +30,22 @@ const authService = {
         }
     },
 
+    // Validate if email or username already exist without creating anything
+    async validateExistence(mail, nombreusuario) {
+        try {
+            const response = await axios.get(`${API_URL}validate-existence`, {
+                params: { mail, nombreusuario }
+            });
+            return response.data; // 200 cuando ambos estén libres
+        } catch (error) {
+            const message =
+                error.response?.data?.error ||
+                error.response?.data?.message ||
+                "Validation failed";
+            throw new Error(message);
+        }
+    },
+
     // Helper method to create registration data with student info
     createStudentRegistration(userData, studentData) {
         return {

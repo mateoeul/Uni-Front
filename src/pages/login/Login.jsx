@@ -32,8 +32,6 @@ const Login = () => {
     
     if (!form.password.trim()) {
       newErrors.password = "La contraseña es requerida";
-    } else if (form.password.length < 6) {
-      newErrors.password = "Mínimo 6 caracteres";
     }
     
     setErrors(newErrors);
