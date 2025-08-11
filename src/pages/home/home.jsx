@@ -1,16 +1,20 @@
 // src/pages/Home.jsx
 import "./home.css";
-import { FaSearch, FaBuilding, FaCode, FaHeartbeat, FaShieldAlt, FaGlobe, FaFeather, FaGraduationCap, FaMicrophone } from 'react-icons/fa';
+import { FaSearch, FaBuilding, FaCode, FaHeartbeat, FaShieldAlt, FaGlobe, FaFeather, FaGraduationCap, FaMicrophone, FaLeaf } from 'react-icons/fa';
 import universitarios1 from '../../assets/images/universitarios1.jpg';
 
 const Home = () => {
   const categories = [
+    // Fila 1
     { name: "Ciencias exactas", icon: <FaBuilding />, bgColor: "#E3F2FD" },
     { name: "Tecnología", icon: <FaCode />, bgColor: "#E8F5E8" },
     { name: "Salud", icon: <FaHeartbeat />, bgColor: "#FCE4EC" },
-    { name: "Negocios y administración", icon: <FaShieldAlt />, bgColor: "#F3E5F5" },
+    // Fila 2
     { name: "Ciencias sociales", icon: <FaGlobe />, bgColor: "#FFF3E0" },
     { name: "Artes y humanidades", icon: <FaFeather />, bgColor: "#F3E5F5" },
+    { name: "Negocios y administración", icon: <FaShieldAlt />, bgColor: "#E8EAF6" },
+    // Fila 3
+    { name: "Ciencias naturales", icon: <FaLeaf />, bgColor: "#E8F5E8" },
     { name: "Educación y docencia", icon: <FaGraduationCap />, bgColor: "#FCE4EC" },
     { name: "Comunicación y medios", icon: <FaMicrophone />, bgColor: "#E3F2FD" }
   ];
