@@ -1,0 +1,119 @@
+.university-card {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.university-card__logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #f2f4f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #111827;
+}
+
+.university-card__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.university-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.university-card__title {
+  margin: 0;
+  font-size: 16px;
+  color: #111827;
+}
+
+.university-card__badge {
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.university-card__badge.is-public {
+  background: #e8f2ff;
+  color: #1d4ed8;
+}
+
+.university-card__badge.is-private {
+  background: #eefce8;
+  color: #198754;
+}
+
+.university-card__meta {
+  margin-top: 8px;
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.universities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* fondo dinámico solo se usa en el perfil, no en el listado */
+
+@media (max-width: 1100px) {
+  .universities-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 680px) {
+  .universities-grid { grid-template-columns: 1fr; }
+}
+
+.universities-toolbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  .universities-toolbar { grid-template-columns: 1fr 1fr; }
+}
+
+.universities-page {
+  padding: 16px 24px;
+  width: 70vw;
+  max-width: 1200px;
+  min-width: 300px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.universities-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.universities-title {
+  margin: 0;
+  color: #111827;
+  font-size: 24px;
+}
+
+.universities-count {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+

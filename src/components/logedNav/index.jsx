@@ -12,7 +12,7 @@ const LogedNav = () => {
   };
 
   return (
-    <nav className="nav-container">
+    <nav className="loged-nav-container">
       <div className="nav-content">
         <div className="nav-left">
           <span name="/" className="logo">Uni</span>    

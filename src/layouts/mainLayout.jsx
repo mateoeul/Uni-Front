@@ -6,7 +6,9 @@ const mainLayout = () => {
   return (
     <>
       <LogedNav />
-      <Outlet />
+      <div className="layout-content">
+        <Outlet />
+      </div>
     </>
   );
 };

@@ -2,6 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from '../pages/home/home';
 import Universities from '../pages/universities/universities';
+import UniversityProfile from '../pages/universities/UniversityProfile';
 import Careers from '../pages/careers/careers';
 import MainLayout from '../layouts/mainLayout';
 import AboutUs from '../pages/aboutUs/aboutUs';
@@ -18,6 +19,7 @@ const AppRouter = () => {
           <Route element={<MainLayout/>}>
             <Route path="/home" element={<Home />} />
             <Route path="/universities" element={<Universities />} />
+            <Route path="/universities/:slug" element={<UniversityProfile />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/test" element={<Test />} />
