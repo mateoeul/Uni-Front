@@ -67,7 +67,7 @@
 	background: #f8fafc; /* continuidad con header */
 }
 
-.universe-messages { padding: 18px; overflow: auto; display: grid; gap: 14px; }
+.universe-messages { padding: 10px 18px; overflow: auto; display: grid; gap: 6px; }
 .universe-message { display: grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: flex-start; }
 
 /* Avatares circulares */
@@ -98,20 +98,21 @@
 
 /* Usuario: círculo neutro claro */
 .universe-avatar.user { background: linear-gradient(135deg, #e5e7eb, #ffffff); border: 1px solid rgba(17,24,39,0.12); box-shadow: 0 1px 2px rgba(17,24,39,0.10); }
-.universe-message-body { background: #ffffff; border: 1px solid rgba(17,24,39,0.08); padding: 12px 14px; border-radius: 12px; box-shadow: 0 1px 2px rgba(17,24,39,0.04); }
+.universe-message-body { background: #ffffff; border: 1px solid rgba(17,24,39,0.08); padding: 14px 16px; border-radius: 14px; box-shadow: 0 6px 24px rgba(17,24,39,0.06); }
+.from-assistant .universe-message-body { box-shadow: 0 20px 60px rgba(59,130,246,0.18), 0 6px 20px rgba(99,102,241,0.12); }
 .universe-message-title { font-weight: 700; margin-bottom: 6px; color: #111827; }
 .universe-message-content { color: #374151; line-height: 1.55; }
 
 /* Input Area */
-.universe-input { display: grid; gap: 8px; padding: 8px 18px 16px; background: #f8fafc; }
-.universe-input-toolbar { display: flex; justify-content: center; }
-.universe-input-row { display: grid; grid-template-columns: minmax(0,1fr) 220px; gap: 12px; align-items: center; }
+.universe-input { display: grid; gap: 12px; padding: 8px 18px 16px; background: #f8fafc; }
+.universe-input-toolbar { display: flex; justify-content: center; margin-bottom: 0; }
+.universe-input-row { display: grid; grid-template-columns: minmax(0,1fr) 240px; gap: 12px; align-items: stretch; }
 
-.uni-input { background: #ffffff; border: 1px solid rgba(17,24,39,0.12); color: #111827; padding: 10px 16px; border-radius: 12px; outline: none; width: 100%; }
+.uni-input { background: #ffffff; border: none; color: #111827; padding: 14px 18px; border-radius: 999px; outline: none; width: 100%; box-sizing: border-box; box-shadow: 0 6px 20px rgba(17,24,39,0.08); }
 .uni-input.pill { border-radius: 999px; }
-.uni-input.large { height: 36px; font-size: 14px; }
+.uni-input.large { height: 52px; line-height: 52px; font-size: 15px; }
 
-.uni-btn { border: 1px solid rgba(17,24,39,0.12); background: #ffffff; color: #111827; padding: 10px 14px; border-radius: 12px; cursor: default; }
+.uni-btn { border: 1px solid rgba(17,24,39,0.12); background: #ffffff; color: #111827; padding: 10px 14px; border-radius: 12px; cursor: default; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; }
 .uni-btn:hover { filter: brightness(1.05); }
 .uni-btn-primary { background: linear-gradient(135deg, #6366f1, #3b82f6); border-color: rgba(59,130,246,0.35); color: #ffffff; }
 .uni-btn-light { background: #ffffff; }
@@ -123,13 +124,26 @@
 	background: linear-gradient(135deg, #6d4cff, #6f3df7 20%, #5b4bff 55%, #3b82f6 100%);
 	border: none;
 	color: #fff;
-	padding: 0 28px;
-	min-height: 38px;
-	height: 38px;
+	padding: 0 24px;
+	min-height: 52px;
+	height: 52px;
 	width: 100%;
-	box-shadow: 0 10px 24px rgba(59,130,246,0.38);
+	box-shadow: 0 12px 28px rgba(99,102,241,0.22), 0 8px 20px rgba(59,130,246,0.22);
 }
 .uni-btn-send.pill { border-radius: 999px; }
+
+/* (sin título fijo) */
+/* Hero para título UNI AI en ChatBot */
+.universe-hero-header { padding: 18px 24px 8px; display: flex; align-items: center; justify-content: flex-start; width: 100%; }
+.universe-hero-title { margin: 6px 0 2px; font-size: 34px; letter-spacing: 0.6px; font-weight: 800; background: linear-gradient(90deg, #60a5fa, #3b82f6 35%, #7c3aed 75%, #a855f7); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; text-shadow: 0 12px 30px rgba(99,102,241,0.30), 0 6px 16px rgba(59,130,246,0.35); display: inline-block; }
+
+/* Layout: centrar columna de contenido como en la referencia */
+.universe-hero-header,
+.universe-messages,
+.universe-input { max-width: 960px; margin-left: auto; margin-right: auto; }
+
+/* Input más ancho que el contenido para mayor protagonismo */
+.universe-input { max-width: 1200px; }
 
 @media (max-width: 960px) {
 	.universe-page { grid-template-columns: 1fr; }

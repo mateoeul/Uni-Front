@@ -1,7 +1,6 @@
 import "./chatbot.css";
 import '../../components/universe/universe.css';
 import UniverseSidebar from "../../components/universe/UniverseSidebar";
-import UniverseHeader from "../../components/universe/UniverseHeader";
 import UniverseMessage from "../../components/universe/UniverseMessage";
 import UniverseInput from "../../components/universe/UniverseInput";
 
@@ -9,8 +8,10 @@ const ChatBot = () => {
     return (
         <div className="universe-page">
             <UniverseSidebar />
-            <UniverseHeader />
             <main className="universe-chat-area">
+                <div className="universe-hero-header">
+                    <h1 className="universe-hero-title">UNI AI</h1>
+                </div>
                 <section className="universe-messages">
                     <UniverseMessage
                         role="assistant"
