@@ -12,14 +12,14 @@ const publics = ['Todas', 'Pública', 'Privada'];
 const Universities = () => {
   const [search, setSearch] = useState('');
   const [country, setCountry] = useState('Argentina');
-  const [location, setLocation] = useState('Todas');
-  const [ownership, setOwnership] = useState('Todas');
+  const [location, setLocation] = useState('');
+  const [ownership, setOwnership] = useState('');
 
   const filtered = useMemo(() => {
     return UNIVERSITIES.filter((u) => {
       const matchSearch = u.name.toLowerCase().includes(search.toLowerCase());
-      const matchLocation = location === 'Todas' ? true : u.location === location;
-      const matchOwnership = ownership === 'Todas' ? true : u.type === ownership;
+      const matchLocation = location ? u.location === location : true;
+      const matchOwnership = ownership ? u.type === ownership : true;
       return matchSearch && matchLocation && matchOwnership;
     });
   }, [search, location, ownership]);
@@ -44,14 +44,14 @@ const Universities = () => {
           value={location}
           onChange={(e) => setLocation(e.target.value)}
           placeholder="Localidad"
-          options={[{ value: 'Todas', label: 'Todas' }, ...locations.map((l) => ({ value: l, label: l }))]}
+          options={locations.map((l) => ({ value: l, label: l }))}
         />
         <Select
           name="ownership"
           value={ownership}
           onChange={(e) => setOwnership(e.target.value)}
           placeholder="Pública/Privada"
-          options={publics.map((p) => ({ value: p, label: p }))}
+          options={publics.filter(p => p !== 'Todas').map((p) => ({ value: p, label: p }))}
         />
         <Input
           name="search"
