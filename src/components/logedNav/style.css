@@ -1,7 +1,3 @@
-body {
-    overflow-x: hidden;
-}
-
 .loged-nav-container {
     width: 100%;
     background-color: white;
@@ -19,7 +15,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 70vw;  /* Ajustalo si querés más o menos espacio */
+    width: 1200px;
     max-width: 1200px;
     min-width: 300px;
 }

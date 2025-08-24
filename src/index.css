@@ -26,10 +26,12 @@ body {
   min-width: 320px;
   min-height: 100vh;
   position: relative;
+  overflow-x: hidden;
 }
 
 .layout-content {
   padding-top: 12px;
+  overflow: hidden;
 }
 
 h1 {

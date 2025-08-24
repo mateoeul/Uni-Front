@@ -6,6 +6,8 @@
   border: 1px solid #e8e8e8;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .university-card__logo {
@@ -65,6 +67,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* fondo dinámico solo se usa en el perfil, no en el listado */
@@ -90,12 +94,28 @@
 
 .universities-page {
   padding: 16px 24px;
-  width: 70vw;
+  width: 1200px;
   max-width: 1200px;
   min-width: 300px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
+  overflow: hidden;
+}
+
+@media (max-width: 1200px) {
+  .universities-page {
+    width: 90vw;
+    max-width: 90vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .universities-page {
+    width: 95vw;
+    max-width: 95vw;
+    padding: 16px 16px;
+  }
 }
 
 .universities-header {
