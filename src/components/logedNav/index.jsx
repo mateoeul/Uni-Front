@@ -16,10 +16,10 @@ const LogedNav = () => {
       <div className="nav-content">
         <div className="nav-left">
           <span name="/" className="logo">Uni</span>    
-          <NavButtonText name="/home" texto="Home" />
-          <NavButtonText name="/universities" texto="Universities" />
-          <NavButtonText name="/careers" texto="Careers" />
-          <NavButtonText name="/about" texto="About Us" />
+          <NavButtonText name="/home" texto="Inicio" />
+          <NavButtonText name="/universities" texto="Universidades" />
+          <NavButtonText name="/careers" texto="Carreras" />
+          <NavButtonText name="/about" texto="Sobre nosotros" />
           <NavButtonText name="/test" texto="Test" />
           <NavButtonText name="/uni-ai" texto="Uni" style={{color: "blue"}}/>
         </div>

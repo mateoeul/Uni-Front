@@ -13,17 +13,17 @@ const UnlogedNav = ({ navClass }) => {
           <span className={`logo ${textClass}`}>
             Uni
           </span>
-          <NavButtonText name="/" texto="Home" className={textClass} />
-          <NavButtonText name="/" texto="Universities" className={textClass} />
-          <NavButtonText name="/" texto="Careers" className={textClass} />
-          <NavButtonText name="/" texto="About Us" className={textClass} />
+          <NavButtonText name="/" texto="Inicio" className={textClass} />
+          <NavButtonText name="/" texto="Universidades" className={textClass} />
+          <NavButtonText name="/" texto="Carreras" className={textClass} />
+          <NavButtonText name="/" texto="Sobre nosotros" className={textClass} />
           <NavButtonText name="/" texto="Test" className={textClass} />
           <NavButtonText name="/" texto="Uni" className={textClass}/>
         </div>
 
         <div className="nav-right">
-          <NavButtonText name="/login" texto="Log in" className={textClass} />
-          <NavButton name="/register" texto="Register" />
+          <NavButtonText name="/login" texto="Iniciar sesión" className={textClass} />
+          <NavButton name="/register" texto="Registrase" />
         </div>
       </div>
     </nav>
