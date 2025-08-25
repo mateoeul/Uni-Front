@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import './careerDetails.css';
 import { FaArrowLeft, FaMapMarkerAlt, FaClock, FaDollarSign, FaBook } from 'react-icons/fa';
 
@@ -179,6 +179,33 @@ const CareerDetails = ({ selectedCategory, onBack }) => {
 
   const careers = careersData[selectedCategory] || [];
 
+  const [selected, setSelected] = useState([]); // array of career ids
+  const [isCompareOpen, setIsCompareOpen] = useState(false);
+
+  const selectedCareers = useMemo(() => careers.filter(c => selected.includes(c.id)), [careers, selected]);
+
+  const toggleSelect = (careerId) => {
+    setSelected((prev) => {
+      const exists = prev.includes(careerId);
+      if (exists) {
+        return prev.filter(id => id !== careerId);
+      }
+      if (prev.length >= 3) {
+        return prev; // limit to 3 selections
+      }
+      return [...prev, careerId];
+    });
+  };
+
+  const removeSelection = (careerId) => setSelected(prev => prev.filter(id => id !== careerId));
+  const clearAll = () => setSelected([]);
+  const openCompare = () => {
+    if (selectedCareers.length >= 2) setIsCompareOpen(true);
+  };
+  const closeCompare = () => setIsCompareOpen(false);
+
+  const colsStyle = { gridTemplateColumns: `180px repeat(${selectedCareers.length}, 1fr)` };
+
   return (
     <div className="career-details-container">
       <div className="career-details-header">
@@ -218,9 +245,78 @@ const CareerDetails = ({ selectedCategory, onBack }) => {
                 <span className="info-value">{career.studyPlan}</span>
               </div>
             </div>
+
+            <div className="compare-check">
+              <label className="compare-label">
+                <input
+                  type="checkbox"
+                  checked={selected.includes(career.id)}
+                  onChange={() => toggleSelect(career.id)}
+                />
+                <span className="compare-text">Comparar</span>
+              </label>
+              <span className="compare-hint">{selected.length}/3</span>
+            </div>
           </div>
         ))}
       </div>
+
+      {selected.length > 0 && (
+        <div className="compare-bar">
+          <div className="compare-chips">
+            {selectedCareers.map(c => (
+              <span key={c.id} className="chip">
+                {c.name}
+                <button className="chip-x" onClick={() => removeSelection(c.id)}>×</button>
+              </span>
+            ))}
+          </div>
+          <div className="compare-actions">
+            <button className="btn-secondary" onClick={clearAll}>Borrar</button>
+            <button className="btn-primary" disabled={selectedCareers.length < 2} onClick={openCompare}>Comparar</button>
+          </div>
+        </div>
+      )}
+
+      {isCompareOpen && (
+        <div className="compare-modal">
+          <div className="compare-dialog">
+            <div className="compare-header">
+              <h3>Comparación</h3>
+              <button className="close-btn" onClick={closeCompare}>×</button>
+            </div>
+            <div className="compare-selected">
+              Carreras seleccionadas: {selectedCareers.map(c => c.name).join(', ')}
+            </div>
+            <div className="compare-table" style={{ ['--cols']: selectedCareers.length }}>
+              <div className="row header">
+                <div className="cell"><strong>Comparación</strong></div>
+                {selectedCareers.map(c => (<div key={c.id} className="cell title">{c.name}</div>))}
+              </div>
+              <div className="row">
+                <div className="cell label">Categoría</div>
+                {selectedCareers.map(c => (<div key={c.id} className="cell">{selectedCategory}</div>))}
+              </div>
+              <div className="row">
+                <div className="cell label">Universidad</div>
+                {selectedCareers.map(c => (<div key={c.id} className="cell">{c.university}</div>))}
+              </div>
+              <div className="row">
+                <div className="cell label">Duración</div>
+                {selectedCareers.map(c => (<div key={c.id} className="cell">{c.duration}</div>))}
+              </div>
+              <div className="row">
+                <div className="cell label">Precio</div>
+                {selectedCareers.map(c => (<div key={c.id} className="cell">{c.price}</div>))}
+              </div>
+              <div className="row">
+                <div className="cell label">Plan</div>
+                {selectedCareers.map(c => (<div key={c.id} className="cell">{c.studyPlan}</div>))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
