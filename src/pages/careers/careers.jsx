@@ -1,11 +1,17 @@
 // src/pages/careers.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./careers.css";
 import { FaSearch, FaBuilding, FaCode, FaHeartbeat, FaShieldAlt, FaGlobe, FaFeather, FaGraduationCap, FaMicrophone, FaLeaf } from 'react-icons/fa';
 import CareerDetails from '../careerDetails/careerDetails';
 
 const Careers = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('category');
+    if (cat) setSelectedCategory(cat);
+  }, []);
 
   const categories = [
     // Fila 1

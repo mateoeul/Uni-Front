@@ -1,5 +1,6 @@
 // src/pages/Home.jsx
 import "./home.css";
+import { useNavigate } from 'react-router-dom';
 import { FaSearch, FaBuilding, FaCode, FaHeartbeat, FaShieldAlt, FaGlobe, FaFeather, FaGraduationCap, FaMicrophone, FaLeaf } from 'react-icons/fa';
 import universitarios1 from '../../assets/images/universitarios1.jpg';
 
@@ -18,6 +19,12 @@ const Home = () => {
     { name: "Educación y docencia", icon: <FaGraduationCap />, bgColor: "#FCE4EC" },
     { name: "Comunicación y medios", icon: <FaMicrophone />, bgColor: "#E3F2FD" }
   ];
+
+  const navigate = useNavigate();
+
+  const goToCategory = (name) => {
+    navigate(`/careers?category=${encodeURIComponent(name)}`);
+  };
 
   return (
     <div className="home-container">
@@ -53,6 +60,7 @@ const Home = () => {
               key={index} 
               className="category-card"
               style={{ backgroundColor: category.bgColor }}
+              onClick={() => goToCategory(category.name)}
             >
               <div className="category-icon">{category.icon}</div>
               <span className="category-name">{category.name}</span>

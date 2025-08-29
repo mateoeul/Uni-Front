@@ -136,16 +136,22 @@
 
 /* Compare modal */
 .compare-modal { position: fixed; inset: 0; background: rgba(2,6,23,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-.compare-dialog { background: #fff; width: min(1000px, 92vw); border-radius: 12px; overflow: hidden; }
-.compare-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #e5e7eb; }
-.compare-selected { padding: 10px 16px; font-size: 14px; color: #475569; border-bottom: 1px solid #f1f5f9; }
+.compare-dialog { background: #fff; width: min(1000px, 92vw); border-radius: 16px; overflow: hidden; box-shadow: 0 24px 60px rgba(2,6,23,0.35); }
+.compare-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: #1976D2; color: #fff; border-bottom: none; }
+.compare-header h3 { margin: 0; font-size: 1.25rem; font-weight: 700; color: #fff; }
+.close-btn { background: transparent; border: none; font-size: 22px; cursor: pointer; color: #fff; }
+.compare-selected { padding: 12px 20px; font-size: 14px; color: #475569; border-bottom: 1px solid #e5effd; background: #f7fbff; }
 .close-btn { background: transparent; border: none; font-size: 20px; cursor: pointer; }
 .compare-table { display: grid; gap: 0; }
-.row { display: grid; border-bottom: 1px solid #f1f5f9; grid-template-columns: 180px repeat(var(--cols, 3), 1fr); }
-.row.header { background: #f8fafc; }
-.cell { padding: 10px 12px; color: #0f172a; }
-.cell.title { font-weight: 600; color: #0f172a; }
-.cell.label { font-weight: 600; color: #475569; }
+.row { display: grid; border-bottom: 1px solid #eef2f7; grid-template-columns: 180px repeat(var(--cols, 3), 1fr); }
+.row.header { background: #EBF2FB; border-bottom: 1px solid #d8e7ff; }
+.cell { padding: 12px 16px; color: #0f172a; }
+.cell.title { font-weight: 700; color: #0f172a; }
+.cell.label { font-weight: 700; color: #1f2a44; background: #f4f8ff; }
+.compare-table .row:nth-child(odd):not(.header) .cell:not(.label) { background: #fcfdff; }
+.compare-table .row:nth-child(even):not(.header) .cell:not(.label) { background: #f8fbff; }
+.compare-table .row .cell { border-right: 1px solid #eef2f7; }
+.compare-table .row .cell:last-child { border-right: none; }
 
 /* Responsive design */
 @media (max-width: 768px) {
