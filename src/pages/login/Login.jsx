@@ -54,7 +54,6 @@ const Login = () => {
         setError(err.message);
       }
     } else {
-      // Add a brief visual feedback for empty fields
       setTimeout(() => {
         setErrors(prev => ({ ...prev }));
       }, 100);
