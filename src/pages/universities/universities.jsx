@@ -1,28 +1,80 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+
 import Input from '../../components/input/Input';
 import Select from '../../components/select/Select';
 import UniversityCard from '../../components/universityCard/UniversityCard';
 import '../../components/universityCard/style.css';
-import { UNIVERSITIES } from './data';
+import universityService from '../../services/university-service';
 
 const countries = ['Argentina'];
-const locations = ['CABA', 'Buenos Aires', 'La Plata', 'Rosario'];
 const publics = ['Todas', 'Pública', 'Privada'];
 
 const Universities = () => {
   const [search, setSearch] = useState('');
   const [country, setCountry] = useState('Argentina');
-  const [location, setLocation] = useState('');
   const [ownership, setOwnership] = useState('');
+  const [universities, setUniversities] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Cargar universidades desde el servicio
+  useEffect(() => {
+    const loadUniversities = async () => {
+      try {
+        setLoading(true);
+        const response = await universityService.getAll();
+        if (response.success) {
+          // Mapear los datos del API al formato esperado por UniversityCard
+          const mappedUniversities = response.data.map(uni => ({
+            id: uni.id,
+            name: uni.nombre,
+            type: uni.tipo,
+            logoText: uni.abreviacion || uni.nombre.substring(0, 2).toUpperCase(),
+            photo: uni.foto,
+            abbreviation: uni.abreviacion
+          }));
+          setUniversities(mappedUniversities);
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUniversities();
+  }, []);
 
   const filtered = useMemo(() => {
-    return UNIVERSITIES.filter((u) => {
-      const matchSearch = u.name.toLowerCase().includes(search.toLowerCase());
-      const matchLocation = location ? u.location === location : true;
+    return universities.filter((u) => {
+      const matchSearch = u.name.toLowerCase().includes(search.toLowerCase()) || 
+                         (u.abbreviation && u.abbreviation.toLowerCase().includes(search.toLowerCase()));
       const matchOwnership = ownership ? u.type === ownership : true;
-      return matchSearch && matchLocation && matchOwnership;
+      return matchSearch && matchOwnership;
     });
-  }, [search, location, ownership]);
+  }, [search, ownership, universities]);
+
+  if (loading) {
+    return (
+      <div className="universities-page">
+        <div className="universities-header">
+          <h2 className="universities-title">Universidades</h2>
+          <span>Cargando...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="universities-page">
+        <div className="universities-header">
+          <h2 className="universities-title">Universidades</h2>
+          <span style={{color: 'red'}}>Error: {error}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="universities-page">
@@ -40,13 +92,6 @@ const Universities = () => {
           options={countries.map((c) => ({ value: c, label: c }))}
         />
         <Select
-          name="location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Localidad"
-          options={locations.map((l) => ({ value: l, label: l }))}
-        />
-        <Select
           name="ownership"
           value={ownership}
           onChange={(e) => setOwnership(e.target.value)}
@@ -55,7 +100,7 @@ const Universities = () => {
         />
         <Input
           name="search"
-          placeholder="Buscar universidad..."
+          placeholder="Buscar universidad o abreviación..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />

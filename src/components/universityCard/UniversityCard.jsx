@@ -3,13 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import './style.css';
 
 const UniversityCard = ({ university }) => {
-  const { name, location, faculties, type, logoText } = university;
+  const { name, id, type, logoText, photo } = university;
   const navigate = useNavigate();
 
   return (
     <div className="university-card" onClick={() => navigate(`/universities/${encodeURIComponent(name)}`)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/universities/${encodeURIComponent(name)}`); }}>
       <div className="university-card__logo" aria-hidden="true">
-        <span>{logoText || name.substring(0, 2).toUpperCase()}</span>
+        {photo ? (
+          <img src={photo} alt={`Logo de ${name}`} className="university-card__logo-img" />
+        ) : (
+          <span>{logoText || name.substring(0, 2).toUpperCase()}</span>
+        )}
       </div>
       <div className="university-card__content">
         <div className="university-card__header">
@@ -17,8 +21,7 @@ const UniversityCard = ({ university }) => {
           <span className={`university-card__badge ${type === 'Pública' ? 'is-public' : 'is-private'}`}>{type}</span>
         </div>
         <div className="university-card__meta">
-          <p><strong>Ubicación:</strong> {location}</p>
-          <p><strong>Facultades:</strong> {faculties.join(', ')}</p>
+          <p><strong>{logoText}</strong> </p>
         </div>
       </div>
     </div>
