@@ -1,7 +1,7 @@
 // src/pages/careers.jsx
 import React, { useEffect, useState } from 'react';
 import "./careers.css";
-import { FaSearch, FaBuilding, FaCode, FaHeartbeat, FaShieldAlt, FaGlobe, FaFeather, FaGraduationCap, FaMicrophone, FaLeaf } from 'react-icons/fa';
+import { FaSearch, FaBuilding, FaCode, FaHeartbeat, FaShieldAlt, FaGlobe, FaFeather, FaGraduationCap, FaMicrophone, FaLeaf, FaList } from 'react-icons/fa';
 import CareerDetails from '../careerDetails/careerDetails';
 
 const Careers = () => {
@@ -13,7 +13,9 @@ const Careers = () => {
     if (cat) setSelectedCategory(cat);
   }, []);
 
-  const categories = [
+  const allCategory = { name: "Todas", icon: <FaList />, bgColor: "#F5F5F5" };
+  
+  const specificCategories = [
     // Fila 1
     { name: "Ciencias exactas", icon: <FaBuilding />, bgColor: "#E3F2FD" },
     { name: "Tecnología", icon: <FaCode />, bgColor: "#E8F5E8" },
@@ -47,8 +49,10 @@ const Careers = () => {
       {/* Categories Section */}
       <section className="categories-section">
         <h2 className="section-title">Busca Por Categorías</h2>
+        
+        {/* Specific categories - 3x3 grid */}
         <div className="categories-grid">
-          {categories.map((category, index) => (
+          {specificCategories.map((category, index) => (
             <div 
               key={index} 
               className="category-card"
@@ -59,6 +63,18 @@ const Careers = () => {
               <span className="category-name">{category.name}</span>
             </div>
           ))}
+        </div>
+
+        {/* Todas category - centered */}
+        <div className="all-category-container">
+          <div 
+            className="category-card all-category"
+            style={{ backgroundColor: allCategory.bgColor }}
+            onClick={() => handleCategoryClick(allCategory.name)}
+          >
+            <div className="category-icon">{allCategory.icon}</div>
+            <span className="category-name">{allCategory.name}</span>
+          </div>
         </div>
       </section>
     </div>

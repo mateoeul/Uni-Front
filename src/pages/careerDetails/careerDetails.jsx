@@ -177,7 +177,9 @@ const CareerDetails = ({ selectedCategory, onBack }) => {
     ]
   };
 
-  const careers = careersData[selectedCategory] || [];
+  const careers = selectedCategory === "Todas" 
+    ? Object.values(careersData).flat() 
+    : careersData[selectedCategory] || [];
 
   const [selected, setSelected] = useState([]); // array of career ids
   const [isCompareOpen, setIsCompareOpen] = useState(false);

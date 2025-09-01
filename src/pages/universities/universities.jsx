@@ -79,7 +79,7 @@ const Universities = () => {
   return (
     <div className="universities-page">
       <div className="universities-header">
-        <h2 className="universities-title">Universidades</h2>
+
         <span className="universities-count">{filtered.length} resultados</span>
       </div>
 
