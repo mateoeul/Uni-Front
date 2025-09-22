@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import './careerList.css';
 import { FaArrowLeft, FaClock } from 'react-icons/fa';
 import categoryService from '../../services/category-service';
+import careerService from '../../services/career-service';
 
 const CareerDetails = ({ selectedCategory, onBack }) => {
   const [careers, setCareers] = useState([]);
@@ -13,8 +14,11 @@ const CareerDetails = ({ selectedCategory, onBack }) => {
       try {
         setLoading(true);
         setError(null);
-        // selectedCategory ahora es un objeto { id, name }
-        const response = await categoryService.getCareersByCategory(selectedCategory?.id);
+        // selectedCategory ahora puede ser "Todas" (string) o isAll (objeto)
+        const isAll = selectedCategory === 'Todas' || selectedCategory?.isAll;
+        const response = isAll
+          ? await careerService.getAll()
+          : await categoryService.getCareersByCategory(selectedCategory?.id);
         if (response.success) {
           const mapped = (response.data || []).map((c) => ({
             id: c.id,
@@ -36,7 +40,7 @@ const CareerDetails = ({ selectedCategory, onBack }) => {
         setLoading(false);
       }
     };
-    if (selectedCategory?.id) {
+    if (selectedCategory && (selectedCategory?.id || selectedCategory === 'Todas' || selectedCategory?.isAll)) {
       load();
     }
   }, [selectedCategory]);
@@ -76,7 +80,7 @@ const CareerDetails = ({ selectedCategory, onBack }) => {
           <button className="back-button" onClick={onBack}>
             <FaArrowLeft /> Volver
           </button>
-          <h1 className="category-title">{selectedCategory?.name || 'Categoría'}</h1>
+          <h1 className="category-title">{selectedCategory?.name || (typeof selectedCategory === 'string' ? selectedCategory : 'Categoría')}</h1>
         </div>
         <div style={{ padding: 16 }}>Cargando carreras...</div>
       </div>
@@ -103,7 +107,7 @@ const CareerDetails = ({ selectedCategory, onBack }) => {
         <button className="back-button" onClick={onBack}>
           <FaArrowLeft /> Volver
         </button>
-        <h1 className="category-title">{selectedCategory?.name || 'Categoría'}</h1>
+        <h1 className="category-title">{selectedCategory?.name || (typeof selectedCategory === 'string' ? selectedCategory : 'Categoría')}</h1>
       </div>
       
       <div className="careers-grid">

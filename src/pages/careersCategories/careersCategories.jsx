@@ -76,6 +76,9 @@ const CareersCategories = () => {
     setSelectedCategory(null);
   };
 
+  // Opción "Todas" (estilo del ejemplo)
+  const allCategory = { name: 'Todas', icon: <FaList />, bgColor: '#F5F5F5' };
+
   // Si hay una categoría seleccionada, mostrar los detalles
   if (selectedCategory) {
     return <CareerDetails selectedCategory={selectedCategory} onBack={handleBack} />;
@@ -96,19 +99,31 @@ const CareersCategories = () => {
         )}
 
         {!loading && !error && (
-          <div className="categories-grid">
-            {categories.map((category) => (
+          <>
+            <div className="categories-grid">
+              {categories.map((category) => (
+                <div
+                  key={category.id}
+                  className="category-card"
+                  style={{ backgroundColor: category.bgColor }}
+                  onClick={() => handleCategoryClick(category)}
+                >
+                  <div className="category-icon">{category.icon}</div>
+                  <span className="category-name">{category.name}</span>
+                </div>
+              ))}
+            </div>
+            <div className="all-category-container" style={{ marginTop: 24 }}>
               <div
-                key={category.id}
-                className="category-card"
-                style={{ backgroundColor: category.bgColor }}
-                onClick={() => handleCategoryClick(category)}
+                className="category-card all-category"
+                style={{ backgroundColor: allCategory.bgColor }}
+                onClick={() => handleCategoryClick({ ...allCategory, id: null, isAll: true })}
               >
-                <div className="category-icon">{category.icon}</div>
-                <span className="category-name">{category.name}</span>
+                <div className="category-icon">{allCategory.icon}</div>
+                <span className="category-name">{allCategory.name}</span>
               </div>
-            ))}
-          </div>
+            </div>
+          </>
         )}
       </section>
 
