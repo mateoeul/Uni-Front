@@ -2,10 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import "./careers.css";
 import { FaList, FaSearch, FaBuilding, FaCode, FaHeartbeat, FaShieldAlt, FaGlobe, FaFeather, FaGraduationCap, FaMicrophone, FaLeaf, FaAtom } from 'react-icons/fa';
-import CareerDetails from '../careerDetails/careerList';
+import CareerDetails from '../careerList/careerList';
 import categoryService from '../../services/category-service';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CareersCategories = () => {
+  const navigate = useNavigate();
+  const { slug } = useParams();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,17 +48,37 @@ const CareersCategories = () => {
             return <FaList />;
           };
 
-          // Mapeo: { id, name, icon }
+          // Helper para generar slug
+          const toSlug = (text) => (text || '')
+            .toString()
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/\p{Diacritic}/gu, '')
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+
+          // Mapeo: { id, name, slug, icon }
           const mapped = (response.data || []).map((cat, idx) => {
             const displayName = cat.nombre || cat.name || `Categoría ${idx + 1}`;
             return {
               id: cat.id,
               name: displayName,
+              slug: toSlug(displayName),
               bgColor: '#E3F2FD',
               icon: selectIconByName(displayName)
             };
           });
           setCategories(mapped);
+
+          // Si hay slug en URL, seleccionar correspondiente
+          if (slug) {
+            if (slug === 'todas') {
+              setSelectedCategory({ ...allCategory, id: null, isAll: true });
+            } else {
+              const found = mapped.find(c => c.slug === slug);
+              if (found) setSelectedCategory(found);
+            }
+          }
         } else {
           setError('No se pudieron cargar las categorías');
         }
@@ -69,11 +92,17 @@ const CareersCategories = () => {
   }, []);
 
   const handleCategoryClick = (category) => {
+    if (category?.isAll) {
+      navigate('/careers/todas');
+    } else if (category?.slug) {
+      navigate(`/careers/${category.slug}`);
+    }
     setSelectedCategory(category);
   };
 
   const handleBack = () => {
     setSelectedCategory(null);
+    navigate('/careers');
   };
 
   // Opción "Todas" (estilo del ejemplo)

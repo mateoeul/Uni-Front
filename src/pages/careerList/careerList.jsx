@@ -4,7 +4,7 @@ import { FaArrowLeft, FaClock } from 'react-icons/fa';
 import categoryService from '../../services/category-service';
 import careerService from '../../services/career-service';
 
-const CareerDetails = ({ selectedCategory, onBack }) => {
+const CareerList = ({ selectedCategory, onBack }) => {
   const [careers, setCareers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -240,4 +240,4 @@ const CareerDetails = ({ selectedCategory, onBack }) => {
   );
 };
 
-export default CareerDetails;
+export default CareerList;

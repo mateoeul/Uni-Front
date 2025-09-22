@@ -25,6 +25,7 @@ const AppRouter = () => {
             <Route path="/universities" element={<Universities />} />
             <Route path="/universities/:slug" element={<UniversityProfile />} />
             <Route path="/careers" element={<CareersCategories />} />
+            <Route path="/careers/:slug" element={<CareersCategories />} />
             <Route path="/about" element={<AboutUs />} />
             <Route path="/test" element={<Test />} />
             <Route path="/uni-ai" element={<ChatBot />} />
