@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import './careerList.css';
-import { FaArrowLeft, FaClock } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa';
 import categoryService from '../../services/category-service';
 import careerService from '../../services/career-service';
+import CareerCard from '../../components/career/CareerCard.jsx';
 
 const CareerList = ({ selectedCategory, onBack }) => {
   const [careers, setCareers] = useState([]);
@@ -112,35 +113,21 @@ const CareerList = ({ selectedCategory, onBack }) => {
       
       <div className="careers-grid">
         {careers.map((career) => (
-          <div key={career.id} className="career-card">
-            <h3 className="career-name">{career.name}</h3>
-            <p className="career-description" style={{ marginTop: 8, color: '#444' }}>
-              {(career.description || '').length > 140
-                ? `${(career.description || '').slice(0, 140)}...`
-                : (career.description || '')}
-            </p>
-
-            <div className="career-info" style={{ marginTop: 12 }}>
-              <div className="info-item">
-                <FaClock className="info-icon" />
-                <span className="info-label">Duración:</span>
-                <span className="info-value">{career.durationYears ? `${career.durationYears} años` : '—'}</span>
-              </div>
-            </div>
-
-            <div className="card-footer">
-              <button className="btn-primary" onClick={() => setDetailCareer(career)}>Ver más</button>
-              <label className="compare-label" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <input
-                  type="checkbox"
-                  checked={selected.includes(career.id)}
-                  onChange={() => toggleSelect(career.id)}
-                />
-                <span className="compare-text">Comparar</span>
-                <span className="compare-hint">{selected.length}/3</span>
-              </label>
-            </div>
-          </div>
+          <CareerCard
+            key={career.id}
+            id={career.id}
+            name={career.name}
+            description={career.description}
+            durationYears={career.durationYears}
+            university={career.university}
+            price={career.price}
+            studyPlan={career.studyPlan}
+            onViewMore={() => setDetailCareer(career)}
+            selectable
+            selected={selected.includes(career.id)}
+            onToggleSelect={() => toggleSelect(career.id)}
+            footerSlot={<span className="compare-hint">{selected.length}/3</span>}
+          />
         ))}
       </div>
 
