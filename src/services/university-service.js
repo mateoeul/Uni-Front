@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/university/';
 
-// Configurar axios con el token de autenticación
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -10,7 +9,7 @@ const api = axios.create({
   }
 });
 
-// Interceptor para agregar el token automáticamente
+
 api.interceptors.request.use((config) => {
   const userData = localStorage.getItem('user');
   if (userData) {
@@ -26,7 +25,7 @@ api.interceptors.request.use((config) => {
 const universityService = {
   async getAll() {
     try {
-      const response = await api.get(''); // GET, no POST
+      const response = await api.get(''); 
       return response.data;
     } catch (error) {
       const message = error.response?.data?.message || 
@@ -38,7 +37,7 @@ const universityService = {
    
   async getAllExpanded() {
     try {
-      const response = await api.get('expanded'); // GET, no POST
+      const response = await api.get('expanded'); 
       return response.data;
     } catch (error) {
       const message = error.response?.data?.message || 
