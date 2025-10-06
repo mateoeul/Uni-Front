@@ -42,17 +42,19 @@ const AboutUs = () => {
     };
   }, []);
   return (
-    <main>
-      <IntroSplit />
-      <Hero />
-      <TrustedBy />
-      <Stats />
-      <Mission />
-      <News />
-      <Team />
-      <CTA />
+    <main className="about-page">
+      <div className="about-page__wrapper">
+        <IntroSplit />
+        <Hero />
+        <TrustedBy />
+        <Stats />
+        <Mission />
+        <News />
+        <Team />
+        <CTA />
+      </div>
     </main>
   );
 };
 
-export default AboutUs; 
+export default AboutUs;
