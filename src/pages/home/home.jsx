@@ -8,15 +8,15 @@ const Home = () => {
   const categories = [
     // Fila 1
     { name: "Ciencias exactas", icon: <FaBuilding />, bgColor: "#E3F2FD" },
-    { name: "Tecnología", icon: <FaCode />, bgColor: "#E8F5E8" },
+    { name: "Tecnología e innovación", icon: <FaCode />, bgColor: "#E8F5E8" },
     { name: "Salud", icon: <FaHeartbeat />, bgColor: "#FCE4EC" },
     // Fila 2
     { name: "Ciencias sociales", icon: <FaGlobe />, bgColor: "#FFF3E0" },
-    { name: "Artes y humanidades", icon: <FaFeather />, bgColor: "#F3E5F5" },
+    { name: "Arte y diseño", icon: <FaFeather />, bgColor: "#F3E5F5" },
     { name: "Negocios y administración", icon: <FaShieldAlt />, bgColor: "#E8EAF6" },
     // Fila 3
     { name: "Ciencias naturales", icon: <FaLeaf />, bgColor: "#E8F5E8" },
-    { name: "Educación y docencia", icon: <FaGraduationCap />, bgColor: "#FCE4EC" },
+    { name: "Educación", icon: <FaGraduationCap />, bgColor: "#FCE4EC" },
     { name: "Comunicación y medios", icon: <FaMicrophone />, bgColor: "#E3F2FD" }
   ];
 
@@ -24,6 +24,9 @@ const Home = () => {
 
   const goToCategory = (name) => {
     navigate(`/careers?category=${encodeURIComponent(name)}`);
+  };
+  const goToTest = () => {
+    navigate('/test');
   };
 
   return (
@@ -73,7 +76,7 @@ const Home = () => {
       <section className="test-section">
         <h2 className="section-title">Test Vocacional</h2>
         <p className="test-subtitle">Descubri tus gustos e intereses aqui</p>
-        <button className="cta-button">Empezar ahora</button>
+        <button className="cta-button" onClick={goToTest}>Empezar ahora</button>
       </section>
 
       {/* Final Section */}

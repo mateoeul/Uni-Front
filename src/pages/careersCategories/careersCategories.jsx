@@ -34,9 +34,9 @@ const CareersCategories = () => {
             ) return <FaCode />;
             if (name.includes('salud') || name.includes('medic') || name.includes('enfermer')) return <FaHeartbeat />;
             if (name.includes('segur') || name.includes('defen') || name.includes('polic') || name.includes('milit')) return <FaShieldAlt />;
-            if (name.includes('negocio') || name.includes('empresa') || name.includes('admin') || name.includes('comerc')) return <FaBuilding />;
+            if (name.includes('negocio') || name.includes('empresa') || name.includes('admin') || name.includes('comerc')) return <FaShieldAlt />;
             // Diferentes íconos para ciencias exactas, naturales y sociales
-            if (name.includes('exacta') || name.includes('exactas')) return <FaAtom />;
+            if (name.includes('exacta') || name.includes('exactas')) return <FaBuilding />;
             if (name.includes('natural') || name.includes('naturales')) return <FaLeaf />;
             if (name.includes('social') || name.includes('sociales')) return <FaGlobe />;
             if (name.includes('internac') || name.includes('geo') || name.includes('turismo') || name.includes('global')) return <FaGlobe />;
@@ -46,6 +46,59 @@ const CareersCategories = () => {
             if (name.includes('ambient') || name.includes('ecolog') || name.includes('agro') || name.includes('bio')) return <FaLeaf />;
             if (name.includes('busc') || name.includes('search')) return <FaSearch />;
             return <FaList />;
+          };
+
+          const selectColorByName = (categoryName) => {
+            const name = (categoryName || '').toString().toLowerCase();
+            if (name.includes('exacta') || name.includes('exactas')) return '#E3F2FD';
+            if (
+              name.includes('tec') ||
+              name.includes('tecnolog') ||
+              name.includes('innov') ||
+              name.includes('sistema') ||
+              name.includes('informat') ||
+              name.includes('program')
+            ) return '#E8F5E8';
+            if (name.includes('salud') || name.includes('medic') || name.includes('enfermer')) return '#FCE4EC';
+            if (name.includes('social') || name.includes('sociales')) return '#FFF3E0';
+            if (name.includes('arte') || name.includes('letra') || name.includes('human') || name.includes('literat') || name.includes('diseño') || name.includes('diseno')) return '#F3E5F5';
+            if (name.includes('negocio') || name.includes('empresa') || name.includes('admin') || name.includes('comerc')) return '#E8EAF6';
+            if (name.includes('natural') || name.includes('naturales') || name.includes('ambient') || name.includes('ecolog') || name.includes('agro') || name.includes('bio')) return '#E8F5E8';
+            if (name.includes('educ') || name.includes('pedag') || name.includes('docen')) return '#FCE4EC';
+            if (name.includes('comun') || name.includes('period') || name.includes('radio') || name.includes('audio') || name.includes('multimed')) return '#E3F2FD';
+            return '#E3F2FD';
+          };
+
+          // Ordenar igual que en Home (filas y columnas):
+          // 0: Ciencias exactas
+          // 1: Tecnología e innovación
+          // 2: Salud
+          // 3: Ciencias sociales
+          // 4: Arte y diseño
+          // 5: Negocios y administración
+          // 6: Ciencias naturales
+          // 7: Educación
+          // 8: Comunicación y medios
+          const selectOrderIndex = (categoryName) => {
+            const name = (categoryName || '').toString().toLowerCase();
+            if (name.includes('exacta')) return 0;
+            if (
+              name.includes('tec') ||
+              name.includes('tecnolog') ||
+              name.includes('innov') ||
+              name.includes('sistema') ||
+              name.includes('informat') ||
+              name.includes('program')
+            ) return 1;
+            if (name.includes('salud') || name.includes('medic') || name.includes('enfermer')) return 2;
+            if (name.includes('social')) return 3;
+            if (name.includes('arte') || name.includes('diseño') || name.includes('diseno') || name.includes('human')) return 4;
+            if (name.includes('negocio') || name.includes('empresa') || name.includes('admin') || name.includes('comerc')) return 5;
+            if (name.includes('natural') || name.includes('ambient') || name.includes('ecolog') || name.includes('agro') || name.includes('bio')) return 6;
+            if (name.includes('educ') || name.includes('pedag') || name.includes('docen')) return 7;
+            if (name.includes('comun') || name.includes('period') || name.includes('radio') || name.includes('audio') || name.includes('multimed')) return 8;
+            // Por defecto al final
+            return 999;
           };
 
           // Helper para generar slug
@@ -64,10 +117,18 @@ const CareersCategories = () => {
               id: cat.id,
               name: displayName,
               slug: toSlug(displayName),
-              bgColor: '#E3F2FD',
-              icon: selectIconByName(displayName)
+              bgColor: selectColorByName(displayName),
+              icon: selectIconByName(displayName),
+              _order: selectOrderIndex(displayName)
             };
-          });
+          })
+          // Ordenar por índice definido para igualar Home; mantener orden alfabético como secundario
+          .sort((a, b) => {
+            if (a._order !== b._order) return a._order - b._order;
+            return a.name.localeCompare(b.name);
+          })
+          // remover campo interno
+          .map(({ _order, ...rest }) => rest);
           setCategories(mapped);
 
           // Si hay slug en URL, seleccionar correspondiente
