@@ -2,6 +2,7 @@ import NavButtonText from '../navButtonText';
 import SearchBar from '../searchBar/serachBar';
 import './style.css';
 import { FaUserCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const LogedNav = () => {
 
@@ -26,7 +27,9 @@ const LogedNav = () => {
 
         <div className="nav-right">
           <SearchBar onSearch={handleSearch} />
-          <FaUserCircle className="profile-icon" />
+          <Link to="/user-profile" aria-label="Perfil de usuario">
+            <FaUserCircle className="profile-icon" />
+          </Link>
         </div>
       </div>
     </nav>

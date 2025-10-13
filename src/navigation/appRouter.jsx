@@ -9,6 +9,7 @@ import MainLayout from '../layouts/mainLayout';
 import AboutUs from '../pages/aboutUs/aboutUs';
 import Test from '../pages/test/Test';
 import ChatBot from '../pages/chatBot/ChatBot.jsx';
+import UserProfile from '../pages/userProfile/userProfile.jsx';
 
 
 import Login from '../pages/login/Login.jsx';
@@ -29,6 +30,7 @@ const AppRouter = () => {
             <Route path="/about" element={<AboutUs />} />
             <Route path="/test" element={<Test />} />
             <Route path="/uni-ai" element={<ChatBot />} />
+            <Route path="/user-profile" element={<UserProfile />} />
 
           </Route>
 
