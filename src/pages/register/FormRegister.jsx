@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import authService from "../../services/auth-service";
 import { useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/UserContext";
 
 
 const FormRegister = () => {
@@ -22,6 +23,7 @@ const FormRegister = () => {
   const [error, setError] = useState("");
   const [step1Error, setStep1Error] = useState("");
   const navigate = useNavigate();
+  const { refresh } = useUser();
 
 
   const handleChange1 = (e) => {
@@ -133,6 +135,8 @@ const FormRegister = () => {
         // Auto login after successful registration
         const loginResponse = await authService.login(form1.email, form1.password);
         console.log('Auto login successful:', loginResponse);
+        // Ensure context picks up the stored user and role immediately
+        refresh();
 
         // Navigate to home page
         navigate("/home");

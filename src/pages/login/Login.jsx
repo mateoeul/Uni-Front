@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css"
 import authService from "../../services/auth-service";
+import { useUser } from "../../contexts/UserContext";
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -11,6 +12,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { refresh } = useUser();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,6 +49,8 @@ const Login = () => {
         // Use auth service for login
         const response = await authService.login(form.email, form.password);
         console.log('Login successful:', response);
+        // Ensure context picks up the stored user and role immediately
+        refresh();
         navigate("/home");
       } catch (err) {
         console.error('Login error:', err);
