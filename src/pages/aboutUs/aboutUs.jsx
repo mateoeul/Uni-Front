@@ -3,10 +3,8 @@ import './about.css';
 import Hero from './components/Hero';
 import Team from './components/Team';
 import CTA from './components/CTA';
-import Stats from './components/Stats';
 import Mission from './components/Mission';
 import IntroSplit from './components/IntroSplit';
-import TrustedBy from './components/TrustedBy';
 import News from './components/News';
 
 const AboutUs = () => {
@@ -46,8 +44,6 @@ const AboutUs = () => {
       <div className="about-page__wrapper">
         <IntroSplit />
         <Hero />
-        <TrustedBy />
-        <Stats />
         <Mission />
         <News />
         <Team />
