@@ -2,21 +2,25 @@ import NavButtonText from '../navButtonText';
 import SearchBar from '../searchBar/serachBar';
 import './style.css';
 import { FaUserCircle } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LogedNav = () => {
 
-  // Función que maneja la búsqueda (podés modificarla)
+  const navigate = useNavigate();
+
+  // Función que maneja la búsqueda
   const handleSearch = (query) => {
-    console.log('Buscando:', query);
-    // Aquí tu lógica real de búsqueda o navegación
+    if (query.trim()) {
+      // Redirigir a la página de carreras con el filtro de búsqueda
+      navigate(`/careers?search=${encodeURIComponent(query.trim())}`);
+    }
   };
 
   return (
     <nav className="loged-nav-container">
       <div className="nav-content">
         <div className="nav-left">
-          <span name="/" className="logo">Uni</span>    
+          <Link to="/home" className="logo">Uni</Link>    
           <NavButtonText name="/home" texto="Inicio" />
           <NavButtonText name="/universities" texto="Universidades" />
           <NavButtonText name="/careers" texto="Carreras" />

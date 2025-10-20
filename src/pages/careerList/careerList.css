@@ -133,9 +133,9 @@
   position: sticky;
   bottom: 12px;
   margin-top: 24px;
-  background: #e9f0fb;
+  background: #f5f9ff;
   border: 1px solid #c7ddfb;
-  box-shadow: 0 8px 20px rgba(2, 6, 23, 0.15);
+  box-shadow: 0 8px 20px rgba(2, 6, 23, 0.1);
   border-radius: 12px;
   padding: 12px;
   display: flex;
@@ -149,8 +149,23 @@
 .chip-x { background: transparent; border: none; cursor: pointer; color: #64748b; font-size: 16px; }
 
 .compare-actions { display: flex; gap: 8px; }
-.btn-primary { background: #1f4f86; color: #fff; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
-.btn-primary:disabled { background: #8ba8c9; cursor: not-allowed; }
+.compare-actions .btn-primary { 
+  background: #0d47a1 !important; 
+  color: #fff !important; 
+  border: none !important; 
+  padding: 8px 16px !important; 
+  border-radius: 8px !important; 
+  cursor: pointer !important; 
+  font-weight: 600 !important; 
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.compare-actions .btn-primary:disabled { 
+  background: #8ba8c9 !important; 
+  cursor: not-allowed !important; 
+  opacity: 1 !important;
+}
 .btn-secondary { background: #e2e8f0; color: #0f172a; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; }
 
 /* Compare modal */

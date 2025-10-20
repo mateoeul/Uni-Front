@@ -22,8 +22,21 @@ const Home = () => {
 
   const navigate = useNavigate();
 
-  const goToCategory = (name) => {
-    navigate(`/careers?category=${encodeURIComponent(name)}`);
+  const goToCategory = (categoryName) => {
+    // Función para normalizar el nombre a un slug
+    const toSlug = (text) => (text || '')
+      .toString()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Eliminar acentos
+      .replace(/[^a-z0-9]+/g, '-') // Reemplazar caracteres no alfanuméricos por guiones
+      .replace(/(^-|-$)/g, ''); // Eliminar guiones al inicio y final
+    
+    // Generar el slug a partir del nombre de la categoría
+    const slug = toSlug(categoryName);
+    
+    // Navegar a la ruta de la categoría
+    navigate(`/careers/${slug}`);
   };
   const goToTest = () => {
     navigate('/test');

@@ -1,53 +1,100 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './careerList.css';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaSearch } from 'react-icons/fa';
 import categoryService from '../../services/category-service';
 import careerService from '../../services/career-service';
 import CareerCard from '../../components/career/CareerCard.jsx';
 
 const CareerList = ({ selectedCategory, onBack }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [careers, setCareers] = useState([]);
+  const [filteredCareers, setFilteredCareers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Cargar carreras
   useEffect(() => {
-    const load = async () => {
+    const loadCareers = async () => {
       try {
         setLoading(true);
         setError(null);
-        // selectedCategory ahora puede ser "Todas" (string) o isAll (objeto)
-        const isAll = selectedCategory === 'Todas' || selectedCategory?.isAll;
-        const response = isAll
-          ? await careerService.getAll()
-          : await categoryService.getCareersByCategory(selectedCategory?.id);
+        
+        // Obtener término de búsqueda de la URL
+        const searchParams = new URLSearchParams(location.search);
+        const search = searchParams.get('search') || '';
+        setSearchQuery(search);
+        
+        // Cargar todas las carreras
+        const response = await careerService.getAll();
+          
         if (response.success) {
           const mapped = (response.data || []).map((c) => ({
             id: c.id,
             name: c.nombre || c.name,
             description: c.descripcion || c.description || c.descripcion_carrera || 'Sin descripción',
             durationYears: c.duracion_en_anios || c.duracionAnios || c.duracion || c.duration || null,
-            // Campos opcionales por si luego los usamos
             university: c.universidad?.nombre || c.university || c.universidad || '—',
             price: c.precio || c.price || '—',
             studyPlan: c.plan_estudio || c.studyPlan || '—'
           }));
+          
           setCareers(mapped);
         } else {
           setError('No se pudieron cargar las carreras');
         }
       } catch (e) {
-        setError(e.message);
+        setError('Error al cargar las carreras');
+        console.error('Error:', e);
       } finally {
         setLoading(false);
       }
     };
-    if (selectedCategory && (selectedCategory?.id || selectedCategory === 'Todas' || selectedCategory?.isAll)) {
-      load();
+    
+    loadCareers();
+  }, [location.search]); // Solo recargar cuando cambie la búsqueda
+  
+  // Título de la categoría o resultados de búsqueda
+  const getTitle = () => {
+    if (searchQuery) {
+      return `Resultados para "${searchQuery}"`;
     }
-  }, [selectedCategory]);
+    return selectedCategory?.name || 'Todas las carreras';
+  };
+
+  // Filtrar carreras según el término de búsqueda
+  useEffect(() => {
+    if (!searchQuery) {
+      setFilteredCareers(careers);
+      return;
+    }
+    
+    const searchLower = searchQuery.toLowerCase();
+    const filtered = careers.filter(career => 
+      (career.name && career.name.toLowerCase().includes(searchLower)) ||
+      (career.description && career.description.toLowerCase().includes(searchLower)) ||
+      (career.university && career.university.toLowerCase().includes(searchLower))
+    );
+    
+    setFilteredCareers(filtered);
+  }, [searchQuery, careers]);
 
   const [selected, setSelected] = useState([]); // array of career ids
   const [isCompareOpen, setIsCompareOpen] = useState(false);
+  
+  // Manejar búsqueda desde el input
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchValue = e.target.search?.value || '';
+    if (searchValue.trim()) {
+      navigate(`/careers?search=${encodeURIComponent(searchValue.trim())}`, { replace: true });
+      // No limpiar el input aquí para que se mantenga en la barra de búsqueda
+    } else {
+      navigate('/careers');
+    }
+  };
   const [detailCareer, setDetailCareer] = useState(null); // para modal "Ver más"
 
   const selectedCareers = useMemo(() => careers.filter(c => selected.includes(c.id)), [careers, selected]);
@@ -81,7 +128,7 @@ const CareerList = ({ selectedCategory, onBack }) => {
           <button className="back-button" onClick={onBack}>
             <FaArrowLeft /> Volver
           </button>
-          <h1 className="category-title">{selectedCategory?.name || (typeof selectedCategory === 'string' ? selectedCategory : 'Categoría')}</h1>
+          <h1 className="category-title">{getTitle()}</h1>
         </div>
         <div style={{ padding: 16 }}>Cargando carreras...</div>
       </div>
@@ -95,7 +142,7 @@ const CareerList = ({ selectedCategory, onBack }) => {
           <button className="back-button" onClick={onBack}>
             <FaArrowLeft /> Volver
           </button>
-          <h1 className="category-title">{selectedCategory?.name || 'Categoría'}</h1>
+          <h1 className="category-title">{getTitle()}</h1>
         </div>
         <div style={{ padding: 16, color: 'red' }}>Error: {error}</div>
       </div>
@@ -103,33 +150,56 @@ const CareerList = ({ selectedCategory, onBack }) => {
   }
 
   return (
-    <div className="career-details-container">
-      <div className="career-details-header">
-        <button className="back-button" onClick={onBack}>
-          <FaArrowLeft /> Volver
-        </button>
-        <h1 className="category-title">{selectedCategory?.name || (typeof selectedCategory === 'string' ? selectedCategory : 'Categoría')}</h1>
+    <div className="career-list-container">
+      <div className="search-container">
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            name="search"
+            defaultValue={searchQuery}
+            placeholder="Buscar carreras..."
+            className="search-input"
+          />
+          <button type="submit" className="search-button">
+            <FaSearch />
+          </button>
+        </form>
       </div>
       
-      <div className="careers-grid">
-        {careers.map((career) => (
-          <CareerCard
-            key={career.id}
-            id={career.id}
-            name={career.name}
-            description={career.description}
-            durationYears={career.durationYears}
-            university={career.university}
-            price={career.price}
-            studyPlan={career.studyPlan}
-            onViewMore={() => setDetailCareer(career)}
-            selectable
-            selected={selected.includes(career.id)}
-            onToggleSelect={() => toggleSelect(career.id)}
-            footerSlot={<span className="compare-hint">{selected.length}/3</span>}
-          />
-        ))}
-      </div>
+      <h1 className="category-title">{getTitle()}</h1>
+      
+      {loading ? (
+        <div className="loading">Cargando carreras...</div>
+      ) : error ? (
+        <div className="error">{error}</div>
+      ) : filteredCareers.length === 0 ? (
+        <div className="no-results">
+          {searchQuery ? (
+            <p>No se encontraron carreras que coincidan con "{searchQuery}"</p>
+          ) : (
+            <p>No hay carreras disponibles en esta categoría</p>
+          )}
+        </div>
+      ) : (
+        <div className="career-grid">
+          {filteredCareers.map((career) => (
+            <CareerCard
+              key={career.id}
+              id={career.id}
+              name={career.name}
+              description={career.description}
+              durationYears={career.durationYears}
+              university={career.university}
+              price={career.price}
+              onViewMore={() => setDetailCareer(career)}
+              selectable
+              selected={selected.includes(career.id)}
+              onToggleSelect={() => toggleSelect(career.id)}
+              footerSlot={<span className="compare-hint">{selected.length}/3</span>}
+            />
+          ))}
+        </div>
+      )}
 
       {selected.length > 0 && (
         <div className="compare-bar">
