@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Hero = () => {
   return (
@@ -13,8 +14,8 @@ const Hero = () => {
             Te ayudamos a descubrir carreras y universidades con datos claros, comparación sencilla y recomendaciones pensadas para vos.
           </p>
           <div className="hero-actions reveal reveal--fade-up" style={{ '--delay': '160ms' }}>
-            <a href="#explorar" className="btn btn-primary">Explorar carreras</a>
-            <a href="#contacto" className="btn btn-ghost">Quiero saber más</a>
+            <Link to="/careers" className="btn btn-primary">Explorar carreras</Link>
+            <button onClick={() => document.getElementById('timeline').scrollIntoView({ behavior: 'smooth' })} className="btn btn-ghost">Quiero saber más</button>
           </div>
           <div className="hero-metrics reveal reveal--fade-up" style={{ '--delay': '200ms' }}>
             <span className="metric"><strong>+100</strong> universidades</span>

@@ -8,7 +8,7 @@ const CTA = () => {
         <p className="cta-title">¿Querés colaborar con nosotros?</p>
         <p className="cta-sub">Escribinos o sumate al equipo. Siempre estamos abiertos a ideas nuevas.</p>
         <div className="cta-actions">
-          <Link to="/about" className="btn btn-primary">contactanos</Link>
+          <Link to="/contacto" className="btn btn-primary btn-contact">Contáctanos</Link>
         </div>
       </div>
     </section>

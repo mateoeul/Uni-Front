@@ -6,6 +6,7 @@ import CTA from './components/CTA';
 import Mission from './components/Mission';
 import IntroSplit from './components/IntroSplit';
 import News from './components/News';
+import Timeline from './components/Timeline';
 
 const AboutUs = () => {
   useEffect(() => {
@@ -46,6 +47,7 @@ const AboutUs = () => {
         <Hero />
         <Mission />
         <News />
+        <Timeline />
         <Team />
         <CTA />
       </div>
