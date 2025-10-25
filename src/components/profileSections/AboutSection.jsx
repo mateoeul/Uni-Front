@@ -14,12 +14,7 @@ const AboutSection = ({ section, edit = false, onUpdate }) => {
   };
   
   return (
-    <div className="profile-section about-section">
-      <div className="section-header">
-        <h3>{seccion.nombre}</h3>
-        <p className="section-description">{seccion.descripcion}</p>
-      </div>
-      
+    <div className="about-section">
       <div className="section-content">
         {edit ? (
           <textarea
@@ -27,7 +22,7 @@ const AboutSection = ({ section, edit = false, onUpdate }) => {
             value={descripcion}
             onChange={(e) => handleChange(e.target.value)}
             placeholder="Escribe tu descripción..."
-            rows={4}
+            rows={2}
           />
         ) : (
           <div className="about-text">

@@ -22,7 +22,7 @@ const SECTION_COMPONENTS = {
   'Posts': PostsSection,
 };
 
-const DynamicSection = ({ section, edit = false, onUpdate }) => {
+const DynamicSection = ({ section, edit = false, isOwnProfile = false, onUpdate, onEditSection }) => {
   const { seccion, config, datos } = section;
   
   // Obtener el componente correspondiente al tipo de sección
@@ -32,7 +32,18 @@ const DynamicSection = ({ section, edit = false, onUpdate }) => {
     // Si no hay componente específico, mostrar una sección genérica
     return (
       <div className="profile-section">
-        <h3>{seccion.nombre}</h3>
+        <div className="section-header">
+          <h3>{seccion.nombre}</h3>
+          {isOwnProfile && !edit && (
+            <button 
+              className="edit-section-btn" 
+              onClick={() => onEditSection && onEditSection(section.id)}
+              title="Editar sección"
+            >
+              ✏️
+            </button>
+          )}
+        </div>
         <p>{seccion.descripcion}</p>
         {datos && datos.length > 0 && (
           <div className="section-data">
@@ -55,11 +66,25 @@ const DynamicSection = ({ section, edit = false, onUpdate }) => {
   
   // Renderizar el componente específico
   return (
-    <SectionComponent
-      section={section}
-      edit={edit}
-      onUpdate={onUpdate}
-    />
+    <div className="profile-section">
+      <div className="section-header">
+        <h3>{seccion.nombre}</h3>
+        {isOwnProfile && !edit && (
+          <button 
+            className="edit-section-btn" 
+            onClick={() => onEditSection && onEditSection(section.id)}
+            title="Editar sección"
+          >
+            ✏️
+          </button>
+        )}
+      </div>
+      <SectionComponent
+        section={section}
+        edit={edit}
+        onUpdate={onUpdate}
+      />
+    </div>
   );
 };
 

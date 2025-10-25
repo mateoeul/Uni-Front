@@ -67,12 +67,7 @@ const PostsSection = ({ section, edit = false, onUpdate, profileName = 'Usuario'
   };
   
   return (
-    <div className="profile-section posts-section">
-      <div className="section-header">
-        <h3>{seccion.nombre}</h3>
-        <p className="section-description">{seccion.descripcion}</p>
-      </div>
-      
+    <div className="posts-section">
       <div className="section-content">
         {/* Composer para crear posts */}
         <div className="composer">

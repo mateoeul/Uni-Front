@@ -35,16 +35,12 @@ const EventsTable = ({ section, edit = false, onUpdate }) => {
   };
   
   return (
-    <div className="profile-section events-section">
-      <div className="section-header">
-        <h3>{seccion.nombre}</h3>
-        <p className="section-description">{seccion.descripcion}</p>
-        {edit && (
-          <button className="btn btn-light" onClick={handleAdd}>
-            Agregar evento
-          </button>
-        )}
-      </div>
+    <div className="events-section">
+      {edit && (
+        <button className="btn btn-light" onClick={handleAdd}>
+          Agregar evento
+        </button>
+      )}
       
       <div className="section-content">
         {events.length > 0 ? (

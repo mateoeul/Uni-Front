@@ -37,16 +37,12 @@ const EducationSection = ({ section, edit = false, onUpdate }) => {
   };
   
   return (
-    <div className="profile-section education-section">
-      <div className="section-header">
-        <h3>{seccion.nombre}</h3>
-        <p className="section-description">{seccion.descripcion}</p>
-        {edit && (
-          <button className="btn btn-light" onClick={handleAdd}>
-            Agregar educación
-          </button>
-        )}
-      </div>
+    <div className="education-section">
+      {edit && (
+        <button className="btn btn-light" onClick={handleAdd}>
+          Agregar educación
+        </button>
+      )}
       
       <div className="section-content">
         {education.length > 0 ? (

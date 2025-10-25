@@ -8,12 +8,7 @@ const ActivitySection = ({ section, edit = false, onUpdate }) => {
   const activity = datos || [];
   
   return (
-    <div className="profile-section activity-section">
-      <div className="section-header">
-        <h3>{seccion.nombre}</h3>
-        <p className="section-description">{seccion.descripcion}</p>
-      </div>
-      
+    <div className="activity-section">
       <div className="section-content">
         {activity.length > 0 ? (
           activity.map((item, idx) => (
