@@ -1,0 +1,120 @@
+/* Estilos para el contenedor principal */
+.add-section-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el título */
+.add-section-container h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+}
+
+/* Estilos para los grupos de formulario */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+/* Estilos para las etiquetas */
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #444;
+}
+
+/* Estilos para los inputs, select y textarea */
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Estilos para el select */
+select.form-control {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+}
+
+/* Estilos para el checkbox */
+.form-checkbox {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+/* Estilos para el botón de envío */
+.btn {
+    display: inline-block;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #357abd;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+/* Estilos para el formulario */
+.section-form {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+}
+
+/* Estilos para el textarea */
+textarea.form-control {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Estilos para mensajes de error */
+.error-message {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .add-section-container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .add-section-container h1 {
+        font-size: 1.5rem;
+    }
+}

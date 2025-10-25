@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import profileService from '../../services/profile-service';
 import DynamicSection from '../../components/profileSections/DynamicSection';
 import { useUser } from '../../contexts/UserContext';
+import { Navigate, useNavigate } from 'react-router-dom';
 import './Profile.css';
 
 
@@ -15,6 +16,8 @@ const Profile = () => {
     const [edit, setEdit] = useState(false);
     const [showAddSection, setShowAddSection] = useState(false);
     
+    
+    const navigate = useNavigate();
     // Detectar si es el perfil del usuario logueado
     const isOwnProfile = user?.usuario?.id && parseInt(id) === user.usuario.id;
 
@@ -111,7 +114,7 @@ const Profile = () => {
                         {isOwnProfile ? (
                             <button 
                                 className="btn btn-primary" 
-                                onClick={() => setShowAddSection(!showAddSection)}
+                                onClick={() => navigate('/add-section')}
                             >
                                 {showAddSection ? 'Cancelar' : 'Agregar sección'}
                             </button>

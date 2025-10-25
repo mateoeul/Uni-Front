@@ -1,27 +1,15 @@
 import profileService from "../../services/profile-service";
 import { useUser } from "../../contexts/UserContext";
-import { useContext, useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import {useState, useEffect } from "react";
+
 import "./AddSection.css";
 
 const AddSection = () => {
+
     const { user } = useUser();
 
-    cosnt [seccionesDisponibles, setSeccionesDisponibles] = useState([]);
-    const [formInput, setFormInput] = useState({
-        seccion: "",
-        datos: []
-    });
+    const [seccionesDisponibles, setSeccionesDisponibles] = useState([]);
     
-    const [formData, setFormData] = useState({
-        seccion: "",
-        datos: []
-    });
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
-
     useEffect(() => {
         profileService.getSeccionesDisponibles().then(response => {
             setSeccionesDisponibles(response.data.filter(section => section.tipo_usuario === "Ambos" || section.tipo_usuario === user.usuario.tipo));
@@ -30,22 +18,18 @@ const AddSection = () => {
         });
     }, []);
 
-    const handleAddSection = async (sectionData) => {
-        try {
-            const response = await profileService.addSection(sectionData);
-            if (response.success) {
-                setShowAddSection(false);
-            }
-        } catch (error) {
-            console.error('Error al agregar sección:', error);
-        }
-    }
-
-
-
     return (
         <div>
             <h1>Agregar sección</h1>
+            <select>
+                {seccionesDisponibles.map(section => (
+                    <option key={section.id} value={section.id}>
+                        {section.nombre}
+                    </option>
+                ))}
+            </select>
         </div>
     )
 }
+
+export default AddSection;

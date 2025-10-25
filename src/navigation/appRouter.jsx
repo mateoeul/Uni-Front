@@ -13,6 +13,7 @@ import UserProfile from '../pages/userProfile/userProfile.jsx';
 import SearchResults from '../pages/SearchResults/SearchResults';
 
 import Profile from '../pages/Profille/Profile.jsx';
+import AddSection from '../pages/AddSection/AddSection.jsx';
 
 import Login from '../pages/login/Login.jsx';
 import Landing from '../pages/landing/Landing';
@@ -34,7 +35,9 @@ const AppRouter = () => {
             <Route path="/uni-ai" element={<ChatBot />} />
             <Route path="/user-profile" element={<UserProfile />} />
             <Route path="/search" element={<SearchResults />} />
+
             <Route path="/:id/profile" element={<Profile />} />
+            <Route path="/add-section" element={<AddSection />} />
           </Route>
 
           <Route path="/" element={<Landing />} />          
