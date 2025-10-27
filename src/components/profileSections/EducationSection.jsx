@@ -6,16 +6,17 @@ const EducationSection = ({ section, edit = false, onUpdate }) => {
   const { seccion, config, datos } = section;
   
   // Convertir datos del backend al formato esperado
-  const education = datos || [];
+  const education = Array.isArray(datos) ? datos : (datos ? [datos] : []);
   
   const handleAdd = () => {
     if (onUpdate) {
       const newEducation = {
         id: Date.now(),
-        school: '',
-        title: '',
-        period: '',
-        icon: 'cap'
+        institucion: '',
+        carrera: '',
+        ano_inicio: '',
+        ano_fin: '',
+        descripcion: ''
       };
       onUpdate(section, [...education, newEducation]);
     }
@@ -48,41 +49,56 @@ const EducationSection = ({ section, edit = false, onUpdate }) => {
         {education.length > 0 ? (
           education.map((edu, idx) => (
             <div className="edu-item" key={edu.id || idx}>
-              {edu.icon === 'ort' ? (
-                <img 
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/ORT_Argentina.svg/2560px-ORT_Argentina.svg.png" 
-                  alt="ORT" 
-                  style={{ height: 24 }} 
-                />
-              ) : (
-                <FaGraduationCap />
-              )}
+              <FaGraduationCap />
               <div className="edu-item__content">
                 {!edit ? (
                   <>
-                    <strong>{edu.school || edu.institucion}</strong>
-                    <div>{edu.title || edu.titulo}</div>
-                    <small>{edu.period || edu.periodo}</small>
+                    <strong>{edu.institucion || edu.school}</strong>
+                    {(edu.carrera || edu.title) && <div>{edu.carrera || edu.title}</div>}
+                    {(edu.ano_inicio || edu.ano_fin || edu.period) && (
+                      <small>
+                        {edu.ano_inicio || ''}
+                        {(edu.ano_inicio || edu.ano_fin) && ' - '}
+                        {edu.ano_fin || ''}
+                        {!edu.ano_inicio && !edu.ano_fin && (edu.period || '')}
+                      </small>
+                    )}
+                    {edu.descripcion && <p>{edu.descripcion}</p>}
                   </>
                 ) : (
                   <div className="form-grid">
                     <input 
                       className="input" 
-                      value={edu.school || edu.institucion || ''} 
-                      onChange={(e) => handleUpdate(idx, 'school', e.target.value)} 
+                      value={edu.institucion || edu.school || ''} 
+                      onChange={(e) => handleUpdate(idx, 'institucion', e.target.value)} 
                       placeholder="Institución" 
                     />
                     <input 
                       className="input" 
-                      value={edu.title || edu.titulo || ''} 
-                      onChange={(e) => handleUpdate(idx, 'title', e.target.value)} 
-                      placeholder="Título / Descripción" 
+                      value={edu.carrera || edu.title || ''} 
+                      onChange={(e) => handleUpdate(idx, 'carrera', e.target.value)} 
+                      placeholder="Carrera" 
                     />
                     <input 
                       className="input" 
-                      value={edu.period || edu.periodo || ''} 
-                      onChange={(e) => handleUpdate(idx, 'period', e.target.value)} 
-                      placeholder="Período" 
+                      type="number"
+                      value={edu.ano_inicio || ''} 
+                      onChange={(e) => handleUpdate(idx, 'ano_inicio', e.target.value)} 
+                      placeholder="Año inicio" 
+                    />
+                    <input 
+                      className="input" 
+                      type="number"
+                      value={edu.ano_fin || ''} 
+                      onChange={(e) => handleUpdate(idx, 'ano_fin', e.target.value)} 
+                      placeholder="Año fin" 
+                    />
+                    <textarea 
+                      className="textarea" 
+                      rows={3}
+                      value={edu.descripcion || ''} 
+                      onChange={(e) => handleUpdate(idx, 'descripcion', e.target.value)} 
+                      placeholder="Descripción" 
                     />
                   </div>
                 )}

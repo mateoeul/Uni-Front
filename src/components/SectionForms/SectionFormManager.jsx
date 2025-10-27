@@ -16,6 +16,8 @@ const SectionFormManager = ({ selectedSection, onSubmit, onCancel }) => {
     'Projects': ProjectsForm,
     'Eventos': EventsForm,
     'Events': EventsForm,
+    'EventSection': EventsForm,
+    'ActivitySection': EventsForm,
     'Actividad': ActivityForm,
     'Activity': ActivityForm,
     'Publicaciones': PostsForm,

@@ -6,6 +6,7 @@ const EventsForm = ({ onSubmit, onCancel }) => {
       {
         id: Date.now(),
         evento: '',
+        descripcion: '',
         fecha: '',
         modalidad: ''
       }
@@ -32,6 +33,7 @@ const EventsForm = ({ onSubmit, onCancel }) => {
         {
           id: Date.now(),
           evento: '',
+          descripcion: '',
           fecha: '',
           modalidad: ''
         }
@@ -69,6 +71,15 @@ const EventsForm = ({ onSubmit, onCancel }) => {
                 required
               />
             </div>
+
+            <div className="form-group">
+              <label>Descripción</label>
+              <textarea
+                value={event.descripcion}
+                onChange={(e) => handleChange(index, 'descripcion', e.target.value)}
+                placeholder="Descripción del evento"
+              />
+            </div>
             
             <div className="form-group">
               <label>Fecha</label>
@@ -91,6 +102,7 @@ const EventsForm = ({ onSubmit, onCancel }) => {
                 <option value="">Seleccionar modalidad</option>
                 <option value="Presencial">Presencial</option>
                 <option value="Online">Online</option>
+                <option value="Virtual">Virtual</option>
                 <option value="Híbrido">Híbrido</option>
               </select>
             </div>

@@ -5,10 +5,11 @@ const EducationForm = ({ onSubmit, onCancel }) => {
     educaciones: [
       {
         id: Date.now(),
-        school: '',
-        title: '',
-        period: '',
-        icon: 'cap'
+        institucion: '',
+        carrera: '',
+        ano_inicio: '',
+        ano_fin: '',
+        descripcion: ''
       }
     ]
   });
@@ -32,10 +33,11 @@ const EducationForm = ({ onSubmit, onCancel }) => {
         ...prev.educaciones,
         {
           id: Date.now(),
-          school: '',
-          title: '',
-          period: '',
-          icon: 'cap'
+          institucion: '',
+          carrera: '',
+          ano_inicio: '',
+          ano_fin: '',
+          descripcion: ''
         }
       ]
     }));
@@ -65,32 +67,52 @@ const EducationForm = ({ onSubmit, onCancel }) => {
               <label>Institución</label>
               <input
                 type="text"
-                value={edu.school}
-                onChange={(e) => handleChange(index, 'school', e.target.value)}
+                value={edu.institucion}
+                onChange={(e) => handleChange(index, 'institucion', e.target.value)}
                 placeholder="Nombre de la institución"
                 required
               />
             </div>
             
             <div className="form-group">
-              <label>Título / Descripción</label>
+              <label>Carrera</label>
               <input
                 type="text"
-                value={edu.title}
-                onChange={(e) => handleChange(index, 'title', e.target.value)}
-                placeholder="Título obtenido o descripción"
-                required
+                value={edu.carrera}
+                onChange={(e) => handleChange(index, 'carrera', e.target.value)}
+                placeholder="Carrera"
               />
             </div>
             
             <div className="form-group">
-              <label>Período</label>
+              <label>Año de inicio</label>
               <input
-                type="text"
-                value={edu.period}
-                onChange={(e) => handleChange(index, 'period', e.target.value)}
-                placeholder="Ej: 2020-2024"
+                type="number"
+                value={edu.ano_inicio}
+                onChange={(e) => handleChange(index, 'ano_inicio', e.target.value)}
+                placeholder="Ej: 2021"
                 required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Año de fin</label>
+              <input
+                type="number"
+                value={edu.ano_fin}
+                onChange={(e) => handleChange(index, 'ano_fin', e.target.value)}
+                placeholder="Ej: 2025"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Descripción</label>
+              <textarea
+                value={edu.descripcion}
+                onChange={(e) => handleChange(index, 'descripcion', e.target.value)}
+                placeholder="educacion secundaria"
+                rows={3}
               />
             </div>
             

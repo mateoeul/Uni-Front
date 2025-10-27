@@ -6,7 +6,7 @@ const ProjectsSection = ({ section, edit = false, onUpdate }) => {
   const { seccion, config, datos } = section;
   
   // Convertir datos del backend al formato esperado
-  const projects = datos || [];
+  const projects = Array.isArray(datos) ? datos : (datos ? [datos] : []);
   
   const handleAdd = () => {
     if (onUpdate) {
@@ -47,15 +47,66 @@ const ProjectsSection = ({ section, edit = false, onUpdate }) => {
       <div className="section-content">
         {projects.length > 0 ? (
           projects.map((project, idx) => (
-            <div className="project-item" key={project.id || idx}>
-              <FaBriefcase />
-              <div className="project-item__content">
+            <div
+              className="project-item"
+              key={project.id || idx}
+              style={{
+                background: '#ffffff',
+                border: '1px solid #e5e7eb',
+                borderRadius: 12,
+                padding: 16,
+                boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+                display: 'flex',
+                gap: 12,
+                alignItems: 'flex-start',
+              }}
+            >
+              <FaBriefcase style={{ color: '#2563eb', flexShrink: 0, marginTop: 2 }} />
+              <div className="project-item__content" style={{ width: '100%' }}>
                 {!edit ? (
                   <>
-                    <strong>{project.name || project.nombre}</strong>
-                    <div><small>{project.period || project.periodo}</small></div>
-                    <p>{project.summary || project.resumen}</p>
-                    <p>{project.details || project.detalles}</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+                      {(() => {
+                        const title = project.titulo || project.name || project.nombre || '';
+                        const href = project.link;
+                        if (title && href) {
+                          return (
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: '#1d4ed8', textDecoration: 'none' }}
+                            >
+                              <strong style={{ fontSize: 16 }}>{title}</strong>
+                            </a>
+                          );
+                        }
+                        return <strong style={{ fontSize: 16, color: '#111827' }}>{title}</strong>;
+                      })()}
+                      {(project.periodo || project.period) && (
+                        <span
+                          style={{
+                            background: '#eef2ff',
+                            color: '#3730a3',
+                            padding: '2px 10px',
+                            borderRadius: 999,
+                            fontSize: 12,
+                          }}
+                        >
+                          {project.periodo || project.period}
+                        </span>
+                      )}
+                    </div>
+                    {(project.descripcion || project.summary || project.resumen) && (
+                      <p style={{ marginTop: 6, color: '#111827' }}>
+                        {project.descripcion || project.summary || project.resumen}
+                      </p>
+                    )}
+                    {(project.details || project.detalles) && (
+                      <p style={{ marginTop: 2, color: '#475569' }}>
+                        {project.details || project.detalles}
+                      </p>
+                    )}
                   </>
                 ) : (
                   <div className="form-grid">
