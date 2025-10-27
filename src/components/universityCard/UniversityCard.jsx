@@ -3,11 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import './style.css';
 
 const UniversityCard = ({ university }) => {
-  const { name, id, type, logoText, photo } = university;
+  const { name, id, type, logoText, photo, userId } = university;
   const navigate = useNavigate();
 
   return (
-    <div className="university-card" onClick={() => navigate(`/universities/${encodeURIComponent(name)}`)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/universities/${encodeURIComponent(name)}`); }}>
+    <div 
+      className="university-card" 
+      onClick={() => navigate(`/${userId}/profile`, { state: { profileType: 'Universidad' } })} 
+      role="button" 
+      tabIndex={0} 
+      onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/${userId}/profile`, { state: { profileType: 'Universidad' } }); }}
+    >
       <div className="university-card__logo" aria-hidden="true">
         {photo ? (
           <img src={photo} alt={`Logo de ${name}`} className="university-card__logo-img" />

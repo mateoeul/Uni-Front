@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import profileService from '../../services/profile-service';
 import DynamicSection from '../../components/profileSections/DynamicSection';
 import { useUser } from '../../contexts/UserContext';
@@ -23,9 +23,18 @@ const Profile = () => {
     const navigate = useNavigate();
     // Detectar si es el perfil del usuario logueado
     const isOwnProfile = user?.usuario?.id && parseInt(id) === user.usuario.id;
-    // Skin universidad
-    const isUniversitySkin = (user?.usuario?.tipo && /univers/i.test(user.usuario.tipo))
-        || (profile?.tipo && /univers/i.test(profile.tipo));
+    const location = useLocation();
+    // Skin universidad: basado en el perfil visitado o estado de navegación
+    const isUniversitySkin = Boolean(
+        // Marcado explícito desde navegación
+        (location?.state && /univers/i.test(String(location.state.profileType || '')))
+        // El propio perfil trae tipo universidad
+        || (profile?.tipo && /univers/i.test(profile.tipo))
+        // Heurísticas típicas de universidad
+        || profile?.abreviacion || profile?.sitio_web || profile?.linkedin
+        // Fallback solo si es MI perfil y soy universidad
+        || (isOwnProfile && user?.usuario?.tipo && /univers/i.test(user.usuario.tipo))
+    );
 
     useEffect(() => {
         if (id) {

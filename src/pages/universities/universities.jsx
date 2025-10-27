@@ -31,7 +31,9 @@ const Universities = () => {
             type: uni.tipo,
             logoText: uni.abreviacion || uni.nombre.substring(0, 2).toUpperCase(),
             photo: uni.foto,
-            abbreviation: uni.abreviacion
+            abbreviation: uni.abreviacion,
+            // id del usuario dueño del perfil (fallback a id si no viene explícito)
+            userId: uni.idusuario,
           }));
           setUniversities(mappedUniversities);
         }
