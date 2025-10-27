@@ -7,6 +7,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import './Profile.css';
 import '../universityProfile/universityProfile.css';
 import ProfileHeader from '../universities/components/ProfileHeader';
+import universityService from '../../services/university-service';
 
 
 const Profile = () => {
@@ -18,6 +19,8 @@ const Profile = () => {
     const [edit, setEdit] = useState(false);
         const [editedData, setEditedData] = useState({}); // { [sectionId]: partialData }
     const [showAddSection, setShowAddSection] = useState(false);
+    const [uniCareers, setUniCareers] = useState([]);
+    const [careersLoading, setCareersLoading] = useState(false);
     
     
     const navigate = useNavigate();
@@ -48,6 +51,27 @@ const Profile = () => {
                 .finally(() => setLoading(false));
         }
     }, [id]);
+
+    // Cargar carreras si es perfil de universidad
+    useEffect(() => {
+        const fetchCareers = async () => {
+            if (!isUniversitySkin || !id) return;
+            try {
+                setCareersLoading(true);
+                const res = await universityService.getCarrerasByUniversidad(id);
+                if (res?.success) {
+                    setUniCareers(Array.isArray(res.data) ? res.data : []);
+                } else {
+                    setUniCareers([]);
+                }
+            } catch (e) {
+                setUniCareers([]);
+            } finally {
+                setCareersLoading(false);
+            }
+        };
+        fetchCareers();
+    }, [isUniversitySkin, id]);
 
     const getSectionPxSId = (section) => (
         section?.id_perfil_x_seccion || section?.config?.id_perfil_x_seccion || section?.config?.id || section?.id
@@ -214,6 +238,30 @@ const Profile = () => {
                             ) : null}
                         </div>
                     </div>
+                </div>
+            )}
+
+            {/* Carreras para perfiles de universidad */}
+            {isUniversitySkin && (
+                <div className="profile-content">
+                    {careersLoading ? (
+                        <section className="card">
+                            <h3>Cargando carreras...</h3>
+                        </section>
+                    ) : (
+                        uniCareers && uniCareers.length > 0 && (
+                            <section className="card">
+                                <h3>Carreras de grado</h3>
+                                <div className="career-grid">
+                                    {uniCareers.map((career, idx) => (
+                                        <span key={career?.carrera?.id || career?.id || idx} className="career-pill">
+                                            {career?.carrera?.nombre || career?.nombre || ''}
+                                        </span>
+                                    ))}
+                                </div>
+                            </section>
+                        )
+                    )}
                 </div>
             )}
 

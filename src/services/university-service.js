@@ -57,6 +57,18 @@ const universityService = {
                      "Error al obtener universidad";
       throw new Error(message);
     }
+  },
+
+  async getCarrerasByUniversidad(id) {
+    try {
+      const response = await api.get(`${id}/carreras`);
+      return response.data;
+    } catch (error) {
+      const message = error.response?.data?.message ||
+                     error.response?.data?.error ||
+                     "Error al obtener carreras de la universidad";
+      throw new Error(message);
+    }
   }
 };
 
