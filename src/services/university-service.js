@@ -69,6 +69,18 @@ const universityService = {
                      "Error al obtener carreras de la universidad";
       throw new Error(message);
     }
+  },
+
+  async createCarrera(payload) {
+    try {
+      const response = await api.post('carreras', payload);
+      return response.data;
+    } catch (error) {
+      const message = error.response?.data?.message ||
+                     error.response?.data?.error ||
+                     'Error al crear carrera';
+      throw new Error(message);
+    }
   }
 };
 

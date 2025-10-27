@@ -4,28 +4,15 @@ import "./careers.css";
 import { FaList, FaSearch, FaBuilding, FaCode, FaHeartbeat, FaShieldAlt, FaGlobe, FaFeather, FaGraduationCap, FaMicrophone, FaLeaf, FaAtom } from 'react-icons/fa';
 import CareerDetails from '../careerList/careerList';
 import categoryService from '../../services/category-service';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const CareersCategories = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
-  const location = useLocation();
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
-
-  // Efecto para manejar la búsqueda desde la URL
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const search = searchParams.get('search');
-    if (search) {
-      setSearchQuery(search);
-      // Aquí podrías filtrar las categorías o carreras según el término de búsqueda
-      // Por ahora, simplemente lo guardamos en el estado
-    }
-  }, [location.search]);
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -152,18 +139,6 @@ const CareersCategories = () => {
               const found = mapped.find(c => c.slug === slug);
               if (found) setSelectedCategory(found);
             }
-          }
-          
-          // Si hay un término de búsqueda, filtrar las carreras
-          if (searchQuery) {
-            const searchLower = searchQuery.toLowerCase();
-            const filteredCareers = mapped.filter(category => 
-              category.name.toLowerCase().includes(searchLower) ||
-              (category.description && category.description.toLowerCase().includes(searchLower))
-            );
-            // Aquí podrías actualizar el estado con las carreras filtradas
-            // Por ahora, solo mostramos un mensaje en consola
-            console.log('Carreras filtradas:', filteredCareers);
           }
         } else {
           setError('No se pudieron cargar las categorías');

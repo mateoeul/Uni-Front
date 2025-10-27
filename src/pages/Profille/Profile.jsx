@@ -8,6 +8,7 @@ import './Profile.css';
 import '../universityProfile/universityProfile.css';
 import ProfileHeader from '../universities/components/ProfileHeader';
 import universityService from '../../services/university-service';
+import careerService from '../../services/career-service';
 
 
 const Profile = () => {
@@ -21,6 +22,19 @@ const Profile = () => {
     const [showAddSection, setShowAddSection] = useState(false);
     const [uniCareers, setUniCareers] = useState([]);
     const [careersLoading, setCareersLoading] = useState(false);
+    const [showAddCareer, setShowAddCareer] = useState(false);
+    const [careerOptions, setCareerOptions] = useState([]);
+    const [creatingCareer, setCreatingCareer] = useState(false);
+    const [careerForm, setCareerForm] = useState({
+        idCarrera: '',
+        duracion: '',
+        costo: '',
+        modalidad: '',
+        titulo_otorgado: '',
+        sede: '',
+        perfil_graduado: '',
+        plan_estudios: ''
+    });
     
     
     const navigate = useNavigate();
@@ -72,6 +86,69 @@ const Profile = () => {
         };
         fetchCareers();
     }, [isUniversitySkin, id]);
+
+    // Cargar opciones para el select de carreras cuando se abre el formulario
+    useEffect(() => {
+        const loadCareerOptions = async () => {
+            if (!showAddCareer) return;
+            try {
+                const res = await careerService.getAll();
+                if (res?.success && Array.isArray(res.data)) {
+                    setCareerOptions(res.data);
+                } else {
+                    setCareerOptions([]);
+                }
+            } catch (e) {
+                setCareerOptions([]);
+            }
+        };
+        loadCareerOptions();
+    }, [showAddCareer]);
+
+    const handleCareerFormChange = (e) => {
+        const { name, value } = e.target;
+        setCareerForm(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleCreateCareer = async (e) => {
+        e.preventDefault();
+        if (!careerForm.idCarrera) {
+            window.alert('Selecciona una carrera');
+            return;
+        }
+        try {
+            setCreatingCareer(true);
+            const payload = {
+                idCarrera: Number(careerForm.idCarrera),
+                duracion: careerForm.duracion ? Number(careerForm.duracion) : undefined,
+                costo: careerForm.costo ? Number(careerForm.costo) : undefined,
+                modalidad: careerForm.modalidad || undefined,
+                titulo_otorgado: careerForm.titulo_otorgado || undefined,
+                sede: careerForm.sede || undefined,
+                perfil_graduado: careerForm.perfil_graduado || undefined,
+                plan_estudios: careerForm.plan_estudios || undefined
+            };
+            await universityService.createCarrera(payload);
+            setShowAddCareer(false);
+            setCareerForm({
+                idCarrera: '', duracion: '', costo: '', modalidad: '',
+                titulo_otorgado: '', sede: '', perfil_graduado: '', plan_estudios: ''
+            });
+            // refrescar listado
+            try {
+                setCareersLoading(true);
+                const res = await universityService.getCarrerasByUniversidad(id);
+                if (res?.success) setUniCareers(Array.isArray(res.data) ? res.data : []);
+            } finally {
+                setCareersLoading(false);
+            }
+            window.alert('Carrera creada correctamente');
+        } catch (err) {
+            window.alert(err.message || 'Error al crear carrera');
+        } finally {
+            setCreatingCareer(false);
+        }
+    };
 
     const getSectionPxSId = (section) => (
         section?.id_perfil_x_seccion || section?.config?.id_perfil_x_seccion || section?.config?.id || section?.id
@@ -244,24 +321,93 @@ const Profile = () => {
             {/* Carreras para perfiles de universidad */}
             {isUniversitySkin && (
                 <div className="profile-content">
-                    {careersLoading ? (
-                        <section className="card">
-                            <h3>Cargando carreras...</h3>
-                        </section>
-                    ) : (
-                        uniCareers && uniCareers.length > 0 && (
-                            <section className="card">
-                                <h3>Carreras de grado</h3>
-                                <div className="career-grid">
-                                    {uniCareers.map((career, idx) => (
-                                        <span key={career?.carrera?.id || career?.id || idx} className="career-pill">
-                                            {career?.carrera?.nombre || career?.nombre || ''}
-                                        </span>
-                                    ))}
+                    <section className="card">
+                        <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', gap:12}}>
+                            <h3 style={{margin:0}}>Carreras de grado</h3>
+                            {isOwnProfile && (
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={() => setShowAddCareer(prev => !prev)}
+                                    aria-label="Agregar carrera"
+                                >
+                                    + Agregar carrera
+                                </button>
+                            )}
+                        </div>
+
+                        {careersLoading ? (
+                            <p style={{marginTop:12}}>Cargando carreras...</p>
+                        ) : (
+                            <div className="career-grid" style={{marginTop:12}}>
+                                {(uniCareers || []).map((career, idx) => (
+                                    <span key={career?.carrera?.id || career?.id || idx} className="career-pill">
+                                        {career?.carrera?.nombre || career?.nombre || ''}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+
+                        {showAddCareer && isOwnProfile && (
+                            <form onSubmit={handleCreateCareer} style={{marginTop:16, display:'grid', gap:12}}>
+                                <div style={{display:'grid', gap:6}}>
+                                    <label htmlFor="idCarrera">Carrera</label>
+                                    <select
+                                        id="idCarrera"
+                                        name="idCarrera"
+                                        value={careerForm.idCarrera}
+                                        onChange={handleCareerFormChange}
+                                        required
+                                    >
+                                        <option value="">Selecciona una carrera</option>
+                                        {careerOptions.map(opt => (
+                                            <option key={opt.id} value={opt.id}>{opt.nombre}</option>
+                                        ))}
+                                    </select>
                                 </div>
-                            </section>
-                        )
-                    )}
+
+                                <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))', gap:12}}>
+                                    <div style={{display:'grid', gap:6}}>
+                                        <label htmlFor="duracion">Duración (años)</label>
+                                        <input id="duracion" name="duracion" type="number" min="1" value={careerForm.duracion} onChange={handleCareerFormChange} />
+                                    </div>
+                                    <div style={{display:'grid', gap:6}}>
+                                        <label htmlFor="costo">Costo</label>
+                                        <input id="costo" name="costo" type="number" min="0" value={careerForm.costo} onChange={handleCareerFormChange} />
+                                    </div>
+                                    <div style={{display:'grid', gap:6}}>
+                                        <label htmlFor="modalidad">Modalidad</label>
+                                        <input id="modalidad" name="modalidad" type="text" placeholder="Presencial / Virtual / Mixta" value={careerForm.modalidad} onChange={handleCareerFormChange} />
+                                    </div>
+                                    <div style={{display:'grid', gap:6}}>
+                                        <label htmlFor="sede">Sede</label>
+                                        <input id="sede" name="sede" type="text" value={careerForm.sede} onChange={handleCareerFormChange} />
+                                    </div>
+                                </div>
+
+                                <div style={{display:'grid', gap:6}}>
+                                    <label htmlFor="titulo_otorgado">Título otorgado</label>
+                                    <input id="titulo_otorgado" name="titulo_otorgado" type="text" value={careerForm.titulo_otorgado} onChange={handleCareerFormChange} />
+                                </div>
+
+                                <div style={{display:'grid', gap:6}}>
+                                    <label htmlFor="perfil_graduado">Perfil del graduado</label>
+                                    <textarea id="perfil_graduado" name="perfil_graduado" rows={3} value={careerForm.perfil_graduado} onChange={handleCareerFormChange} />
+                                </div>
+
+                                <div style={{display:'grid', gap:6}}>
+                                    <label htmlFor="plan_estudios">Plan de estudios (URL)</label>
+                                    <input id="plan_estudios" name="plan_estudios" type="url" placeholder="https://..." value={careerForm.plan_estudios} onChange={handleCareerFormChange} />
+                                </div>
+
+                                <div style={{display:'flex', gap:12, justifyContent:'flex-end'}}>
+                                    <button type="button" className="btn" onClick={() => setShowAddCareer(false)} disabled={creatingCareer}>Cancelar</button>
+                                    <button type="submit" className="btn btn-primary" disabled={creatingCareer}>
+                                        {creatingCareer ? 'Guardando...' : 'Guardar carrera'}
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+                    </section>
                 </div>
             )}
 
