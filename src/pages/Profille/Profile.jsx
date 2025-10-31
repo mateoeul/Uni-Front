@@ -339,11 +339,22 @@ const Profile = () => {
                             <p style={{marginTop:12}}>Cargando carreras...</p>
                         ) : (
                             <div className="career-grid" style={{marginTop:12}}>
-                                {(uniCareers || []).map((career, idx) => (
-                                    <span key={career?.carrera?.id || career?.id || idx} className="career-pill">
-                                        {career?.carrera?.nombre || career?.nombre || ''}
-                                    </span>
-                                ))}
+                                {(uniCareers || []).map((career, idx) => {
+                                    const cid = career?.idcarrera ?? career?.carrera?.id ?? career?.id ?? idx;
+                                    const cname = career?.carrera?.nombre || career?.nombre || '';
+                                    return (
+                                        <span
+                                            key={cid}
+                                            className="career-pill"
+                                            role="button"
+                                            tabIndex={0}
+                                            onClick={() => navigate(`/${id}/profile/careers/${cid}`)}
+                                            onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/${id}/profile/careers/${cid}`); }}
+                                        >
+                                            {cname}
+                                        </span>
+                                    );
+                                })}
                             </div>
                         )}
 

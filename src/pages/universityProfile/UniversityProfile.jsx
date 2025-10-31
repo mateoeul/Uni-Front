@@ -141,9 +141,13 @@ const UniversityProfile = () => {
             <h3>Carreras de grado</h3>
             <div className="career-grid">
               {university.careers.map((career) => (
-                <span key={career.carrera.id} className="career-pill">
+                <Link
+                  key={career.carrera.id}
+                  className="career-pill"
+                  to={`/${university.id}/profile/careers/${career.carrera.id}`}
+                >
                   {career.carrera.nombre}
-                </span>
+                </Link>
               ))}
             </div>
           </section>

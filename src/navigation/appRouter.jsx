@@ -11,6 +11,7 @@ import Test from '../pages/test/Test';
 import ChatBot from '../pages/chatBot/ChatBot.jsx';
 import UserProfile from '../pages/userProfile/userProfile.jsx';
 import SearchResults from '../pages/SearchResults/SearchResults';
+import CareerDetail from '../pages/careerDetail/CareerDetail.jsx';
 
 import Profile from '../pages/Profille/Profile.jsx';
 import AddSection from '../pages/AddSection/AddSection.jsx';
@@ -37,6 +38,7 @@ const AppRouter = () => {
             <Route path="/search" element={<SearchResults />} />
 
             <Route path="/:id/profile" element={<Profile />} />
+            <Route path="/:universityId/profile/careers/:careerId" element={<CareerDetail />} />
             <Route path="/add-section" element={<AddSection />} />
           </Route>
 
